@@ -1,6 +1,6 @@
 {
   "name": "ext-js-3-devtools",
-  "version": "0.0.0",
+  "version": "1.0.0-rc",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,7 +9,8 @@
     "frontend-watch": "ng build --watch --configuration development",
     "test": "ng test",
     "backend": "webpack --config webpack.backend.js",
-    "backend-watch": "webpack  --watch --config webpack.backend.js"
+    "backend-watch": "webpack  --watch --config webpack.backend.js",
+    "ext": "web-ext"
   },
   "private": true,
   "dependencies": {
@@ -41,6 +42,7 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "ts-loader": "^9.5.2",
     "typescript": "~5.6.2",
+    "web-ext": "^8.4.0",
     "webpack-cli": "^6.0.1"
   }
 }
