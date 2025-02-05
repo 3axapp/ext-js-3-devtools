@@ -1,0 +1,34 @@
+<as-split unit="percent" [direction]="splitDirection()" [gutterSize]="9">
+  <as-split-area #componentForestSplitArea size="60">
+    <as-split direction="vertical" [gutterSize]="9" unit="pixel" [disabled]="true">
+      <as-split-area size="*">
+        <app-component-forest
+          [forest]="forest()"
+          (setParents)="handleSetParents($event)"
+          (selectNode)="handleNodeSelection($event)"
+          (toggleInspector)="toggleInspector.emit()"
+          (highlightComponent)="highlightComponent($event)"
+          (removeComponentHighlight)="removeComponentHighlight()"
+        ></app-component-forest>
+      </as-split-area>
+      <as-split-area size="22">
+        @if (parents()) {
+          <app-breadcrumbs
+            [parents]="parents()!"
+            (handleSelect)="handleSelect($event)"
+          ></app-breadcrumbs>
+        }
+      </as-split-area>
+    </as-split>
+  </as-split-area>
+  <as-split-area size="40" minSize="25" class="prop-split">
+    <app-properties *ngIf="properties()"
+      class="property-tab-wrapper"
+      [currentSelectedElement]="currentSelectedElement()!"
+      [properties]="properties()!"
+      (inspect)="inspect($event)"
+      (highlight)="highlightPropertyComponent($event)"
+      (removeHighlight)="removeComponentHighlight()"
+    ></app-properties>
+  </as-split-area>
+</as-split>

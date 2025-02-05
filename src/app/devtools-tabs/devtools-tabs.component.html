@@ -1,0 +1,11 @@
+<div class="nav-buttons">
+  <button (click)="toggleInspector()" matTooltip="Выбрать компонент на странице">
+    <mat-icon [class.inspector-active]="inspectorRunning()"> pin_end</mat-icon>
+  </button>
+</div>
+
+<div class="tab-content">
+  <app-component-explorer
+    (toggleInspector)="toggleInspector()"
+  ></app-component-explorer>
+</div>

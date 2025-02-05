@@ -1,0 +1,44 @@
+import {ExtJSComponent} from './ext-js/ext-js';
+
+export class DevToolsConsole {
+
+  private readonly prefix = '$ext';
+  private readonly capacity = 5;
+
+  private list: ExtJSComponent[] = [];
+
+  public setReference(component: ExtJSComponent | null) {
+    if (!component) {
+      return;
+    }
+    this.before(component);
+    this.insert(component);
+    this.assign();
+  }
+
+
+  private before(component: ExtJSComponent) {
+    const foundIndex = this.list.indexOf(component);
+    if (foundIndex !== -1) {
+      this.list.splice(foundIndex, 1);
+    } else if (this.list.length === this.capacity) {
+      this.list.pop();
+    }
+  };
+
+  private insert(component: ExtJSComponent) {
+    this.list.unshift(component);
+  }
+
+  private assign() {
+    this.list.forEach((c, i) => {
+      const key = `${this.prefix}${i}`;
+
+      Object.defineProperty(window, key, {
+        get: () => c,
+        configurable: true,
+      });
+    });
+  };
+
+}

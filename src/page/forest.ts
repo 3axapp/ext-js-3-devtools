@@ -1,0 +1,30 @@
+import {ElementPath} from '../app/protocols/messages';
+import {ExtJSComponent} from './ext-js/ext-js';
+
+export interface ComponentNode {
+  id: string,
+  type: string,
+  ctype: string,
+  xtype?: string,
+  modal: boolean,
+  component: ExtJSComponent,
+  children: ComponentNode[],
+}
+
+export const queryDirectiveForest = (
+  position: ElementPath,
+  forest: ComponentNode[],
+): ComponentNode | null => {
+  if (!position.length) {
+    return null;
+  }
+  let node: null | ComponentNode = null;
+  for (const i of position) {
+    node = forest[i];
+    if (!node) {
+      return null;
+    }
+    forest = node.children;
+  }
+  return node;
+};
