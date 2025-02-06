@@ -63,6 +63,10 @@ export class Detector {
   private findRoots(): ExtJSComponent[] {
     return window.Ext!.ComponentMgr.all.items.filter(i => !i.ownerCt && !i.initialConfig['ownerCt']);
   }
+
+  public has(selectedNode: ComponentNode | undefined) {
+    return Boolean(selectedNode && window.Ext!.ComponentMgr.get(selectedNode.id));
+  }
 }
 
 export const getComponent = (el: HTMLElement) => {

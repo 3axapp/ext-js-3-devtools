@@ -47,5 +47,5 @@ export const getPropType = (prop: unknown): PropType => {
 };
 
 const isComponentProp = (prop: any) => {
-  return prop.superclass && (types.get(prop.constructor) || types.get(prop.superclass().constructor));
+  return prop.id && prop.superclass && (types.get(prop.constructor) || types.get(prop.superclass().constructor));
 };

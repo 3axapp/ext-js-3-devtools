@@ -111,7 +111,13 @@ export class DomManager {
   }
 
   private initDetectorEvents() {
-    this.detector.onChange(this.getLatestComponentExplorerView.bind(this));
+    this.detector.onChange(()=>{
+      if (!this.detector.has(this.selectedNode)) {
+        this.selectedNode = void 0;
+      }
+
+      this.getLatestComponentExplorerView();
+    });
   }
 
   private initComplete() {

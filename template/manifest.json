@@ -4,7 +4,7 @@
   "description": "Ext JS 3 DevTools - для отладки приложений написанных на Ext JS 3",
   "author": "Захаров Александр",
   "homepage_url": "https://github.com/3axapp/ext-js-3-devtools",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; script-src-elem 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "48": "assets/icon.svg"

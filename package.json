@@ -1,6 +1,6 @@
 {
   "name": "ext-js-3-devtools",
-  "version": "1.0.1-rc",
+  "version": "1.0.2-rc",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

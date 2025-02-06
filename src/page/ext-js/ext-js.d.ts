@@ -25,6 +25,7 @@ declare global {
         path: number,
       },
       ComponentMgr: {
+        get: (id: string) => ?ExtJSComponent,
         all: {
           items: ExtJSComponent[],
           map: Record<string, ExtJSComponent>,
