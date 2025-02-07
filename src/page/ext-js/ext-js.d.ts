@@ -34,6 +34,9 @@ declare global {
         types: Record<string, Function>,
       },
       isEmpty: (...args: any[]) => boolean,
+      Component: {
+        new(...args): any
+      }
     };
   }
 }
