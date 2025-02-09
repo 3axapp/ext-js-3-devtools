@@ -1,21 +1,28 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Ext JS 3 DevTools",
   "description": "Ext JS 3 DevTools - для отладки приложений написанных на Ext JS 3",
   "author": "Захаров Александр",
   "homepage_url": "https://github.com/3axapp/ext-js-3-devtools",
   "version": "1.0.2",
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; script-src-elem 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
   "icons": {
-    "48": "assets/icon.svg"
+    "16": "assets/icon_16.png",
+    "32": "assets/icon_32.png",
+    "48": "assets/icon_48.png",
+    "128": "assets/icon_128.png"
   },
   "permissions": [
-    "activeTab",
-    "http://*/*",
-    "https://*/*",
-    "file:///*"
+    "scripting",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>"
   ],
   "background": {
+    "service_worker": "background.js",
     "scripts": [
       "background.js"
     ]
@@ -32,8 +39,15 @@
   ],
   "devtools_page": "devtools.html",
   "web_accessible_resources": [
-    "page.js",
-    "devtools.html"
+    {
+      "resources": [
+        "page.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ],
+      "extension_ids": []
+    }
   ],
   "browser_specific_settings": {
     "gecko": {
