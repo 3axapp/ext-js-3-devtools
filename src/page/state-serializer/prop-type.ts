@@ -1,6 +1,4 @@
 import {PropType} from '../../app/protocols/messages';
-import {ExtJSComponent} from '../ext-js/ext-js';
-import {types} from '../detector';
 
 const commonTypes = {
   boolean: PropType.Boolean,
@@ -47,5 +45,5 @@ export const getPropType = (prop: unknown): PropType => {
 };
 
 const isComponentProp = (prop: object) => {
-  return window.Ext && prop instanceof window.Ext.Component;
+  return window.Ext && prop instanceof Ext.Component;
 };

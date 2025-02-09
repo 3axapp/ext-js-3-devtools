@@ -1,8 +1,6 @@
-import {ExtJSComponent} from '../page/ext-js/ext-js';
-
 export const environment = {};
 
-const component: ExtJSComponent = {
+const component: Ext.Component = {
   initialConfig: {
     cls: 'super-class',
     width: 'auto'

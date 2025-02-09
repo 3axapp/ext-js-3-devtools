@@ -1,13 +1,4 @@
-/**
- * @license
- * Copyright Google LLC All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.dev/license
- */
-
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {ViewEncapsulation} from '@angular/core';
 import {PropertyDataSource} from './property-data-source';
 import {FlatNode, Property} from './properties';
 import {PortBus} from '../../protocols/port-bus';
@@ -49,46 +40,34 @@ export class DirectivePropertyResolver {
     (node) => node.expandable,
   );
 
-  private _inputsDataSource: PropertyDataSource;
-  private _outputsDataSource: PropertyDataSource;
   private _stateDataSource: PropertyDataSource;
   private _initialConfigSource: PropertyDataSource;
+  private _listenersControls: PropertyDataSource;
 
   constructor(
     private _messageBus: PortBus<Events>,
     private _props: ComponentProperties,
     private _directivePosition: DirectivePosition,
   ) {
-    const {inputProps, outputProps, stateProps, initialConfigProps} = this._classifyProperties();
+    const {stateProps, initialConfigProps, listenersProps} = this._classifyProperties();
 
-    this._inputsDataSource = this._createDataSourceFromProps(inputProps);
-    this._outputsDataSource = this._createDataSourceFromProps(outputProps);
     this._stateDataSource = this._createDataSourceFromProps(stateProps);
     this._initialConfigSource = this._createDataSourceFromProps(initialConfigProps, ['initialConfig']);
-  }
-
-  get directiveInputControls(): DirectiveTreeData {
-    return getDirectiveControls(this._inputsDataSource);
-  }
-
-  get directiveOutputControls(): DirectiveTreeData {
-    return getDirectiveControls(this._outputsDataSource);
+    this._listenersControls = this._createDataSourceFromProps(listenersProps, ['listeners']);
   }
 
   get directiveStateControls(): DirectiveTreeData {
     return getDirectiveControls(this._stateDataSource);
   }
 
-
   get initialConfigControls(): DirectiveTreeData {
     return getDirectiveControls(this._initialConfigSource);
   }
 
-  // get directiveMetadata(): DirectiveMetadata | undefined {
-  //   return this._props.metadata;
-  // }
+  get listenersControls(): DirectiveTreeData {
+    return getDirectiveControls(this._listenersControls);
+  }
 
-  // : { [name: string]: Descriptor }
   get directiveProperties() {
     return this._props;
   }
@@ -96,38 +75,6 @@ export class DirectivePropertyResolver {
   get directivePosition(): DirectivePosition {
     return this._directivePosition;
   }
-
-  // get directiveViewEncapsulation(): ViewEncapsulation | undefined {
-  //   return this._props.metadata?.encapsulation;
-  // }
-
-  // get directiveHasOnPushStrategy(): boolean | undefined {
-  //   return this._props.metadata?.onPush;
-  // }
-
-  // getExpandedProperties(): NestedProp[] {
-  //   return [
-  //     ...getExpandedDirectiveProperties(this._inputsDataSource.data),
-  //     ...getExpandedDirectiveProperties(this._outputsDataSource.data),
-  //     ...getExpandedDirectiveProperties(this._stateDataSource.data),
-  //   ];
-  // }
-
-  // updateProperties(newProps: Properties): void {
-  //   this._props = newProps;
-  //   const {inputProps, outputProps, stateProps} = this._classifyProperties();
-  //
-  //   this._inputsDataSource.update(inputProps);
-  //   this._outputsDataSource.update(outputProps);
-  //   this._stateDataSource.update(stateProps);
-  // }
-
-  // updateValue(node: FlatNode, newValue: unknown): void {
-  //   const directiveId = this._directivePosition;
-  //   const keyPath = constructPathOfKeysToPropertyValue(node.prop);
-  //   this._messageBus.emit('updateState', [{directiveId, keyPath, newValue}]);
-  //   node.prop.descriptor.value = newValue;
-  // }
 
   private _createDataSourceFromProps(props: { [name: string]: Descriptor }, parents?: string[]): PropertyDataSource {
     return new PropertyDataSource(
@@ -140,36 +87,16 @@ export class DirectivePropertyResolver {
     );
   }
 
-  private _classifyProperties(): {
-    inputProps: { [name: string]: Descriptor };
-    outputProps: { [name: string]: Descriptor };
-    stateProps: { [name: string]: Descriptor };
-    initialConfigProps: { [name: string]: Descriptor };
-  } {
-    // const inputLabels: Set<string> = new Set(Object.values(this._props.metadata?.inputs || {}));
-    // const outputLabels: Set<string> = new Set(Object.values(this._props.metadata?.outputs || {}));
+  private _classifyProperties(): Record<'stateProps'|'initialConfigProps'|'listenersProps', { [name: string]: Descriptor }> {
 
-    const inputProps = {};
-    const outputProps = {};
     const stateProps = this.directiveProperties.properties.props;
     const initialConfigProps = this.directiveProperties.initialConfig.props;
-    // let propPointer: Record<string, { [name: string]: Descriptor }>;
-
-    // (Object.keys(this.directiveProperties) as Array<keyof ComponentProperties>).forEach((propName) => {
-    //   // propPointer = inputLabels.has(propName)
-    //   //   ? inputProps
-    //   //   : outputLabels.has(propName)
-    //   //     ? outputProps
-    //   //     : stateProps;
-    //   propPointer = propName == 'initialConfig' ? initialConfigProps : stateProps;
-    //   propPointer[propName] = this.directiveProperties[propName].props;
-    // });
+    const listenersProps = this.directiveProperties.listeners.props;
 
     return {
-      inputProps,
-      outputProps,
       stateProps,
-      initialConfigProps
+      initialConfigProps,
+      listenersProps,
     };
   }
 }
