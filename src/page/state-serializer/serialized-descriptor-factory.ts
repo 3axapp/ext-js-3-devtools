@@ -2,7 +2,6 @@ import {CompositeType, TerminalType} from './state-serializer';
 import {Descriptor, PropType} from '../../app/protocols/messages';
 import {getDescriptor, getKeys} from './object-utils';
 import {types} from '../detector';
-import {ExtJSComponent} from '../ext-js/ext-js';
 
 export function createShallowSerializedDescriptor(
   instance: any,
@@ -164,7 +163,7 @@ const typeToDescriptorPreview: Formatter<string> = {
   [PropType.String]: (prop: string) => `"${prop}"`,
   [PropType.Function]: (prop: Function) => `${prop.name}(...)`,
   [PropType.HTMLNode]: (prop: Node) => prop.constructor.name,
-  [PropType.Component]: (prop: ExtJSComponent) => types.get(prop.constructor) || types.get(prop.superclass().constructor) || '??',
+  [PropType.Component]: (prop: Ext.Component) => types.get(prop.constructor) || types.get(prop.superclass().constructor) || '??',
   [PropType.Null]: (_: null) => 'null',
   [PropType.Number]: (prop: any) => parseInt(prop, 10).toString(),
   [PropType.Object]: (prop: Object) => (getKeys(prop).length > 0 ? '{...}' : '{}'),

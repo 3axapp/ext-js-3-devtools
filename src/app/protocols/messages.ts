@@ -11,7 +11,6 @@ export type ElementPath = number[];
 
 export interface ComponentExplorerViewQuery {
   selectedElement: ElementPath,
-  // propertyQuery: PropertyQuery,
 }
 
 export interface ComponentExplorerView {
@@ -22,6 +21,7 @@ export interface ComponentExplorerView {
 export interface ComponentProperties {
   properties: Properties,
   initialConfig: Properties,
+  listeners: Properties,
 }
 
 export interface Events extends Record<string, any> {
@@ -86,7 +86,6 @@ export enum PropType {
 
 export interface Properties {
   props: { [name: string]: Descriptor };
-  // metadata?: DirectiveMetadata;
 }
 
 export interface Descriptor {
@@ -95,7 +94,6 @@ export interface Descriptor {
   editable: boolean;
   type: PropType;
   preview: string;
-  // containerType: ContainerType;
 }
 
 export interface DirectivePosition {
