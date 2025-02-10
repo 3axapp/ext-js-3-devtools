@@ -2,7 +2,7 @@ import {Component, computed, inject, input, output} from '@angular/core';
 import {IndexedNode} from '../component-forest/models/index-forest';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {PropertyDataSource} from './property-data-source';
-import {ComponentProperties, DirectivePosition, ElementPath} from '../../protocols/messages';
+import {ComponentProperties, ElementPath} from '../../protocols/messages';
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIcon} from '@angular/material/icon';
@@ -52,7 +52,14 @@ export class PropertiesComponent {
         parents: ['initialConfig'],
       },
       {
-        title: 'properties',
+        title: 'Слушатели событий',
+        hidden: false,
+        controls: resolver.listenersControls,
+        class: 'cy-properties',
+        parents: ['listeners'],
+      },
+      {
+        title: 'Свойства',
         hidden: false,
         controls: resolver.directiveStateControls,
         class: 'cy-properties',

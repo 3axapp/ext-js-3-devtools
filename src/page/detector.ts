@@ -1,19 +1,18 @@
 import {ComponentNode} from './forest';
 import {xTypeAliases} from './ext-js/xtypes';
-import {ExtJSComponent} from './ext-js/ext-js';
 
 export let types: Map<Function, string> = new Map();
-let indexMap: Map<ExtJSComponent, ExtJSComponent[]>;
+let indexMap: Map<Ext.Component, Ext.Component[]>;
 
 export class Detector {
 
   private forest: ComponentNode[] = [];
 
   public detect() {
-    const ext = window.Ext;
     return Boolean(
-      ext?.versionDetail?.major == 3 &&
-      ext.versionDetail?.minor == 4,
+      window.Ext &&
+      Ext?.versionDetail?.major == 3 &&
+      Ext.versionDetail?.minor == 4,
     );
   }
 
@@ -32,14 +31,13 @@ export class Detector {
     const ext = window.Ext!;
 
     ext.ComponentMgr.all.on('add', debounce);
-    // ext.ComponentMgr.all.on('clear', cb);
     ext.ComponentMgr.all.on('remove', debounce);
     ext.ComponentMgr.all.on('replace', debounce);
   }
 
   public buildForest(): ComponentNode[] {
     types = new Map();
-    for (let [n, c] of Object.entries(window.Ext!.ComponentMgr.types)) {
+    for (let [n, c] of Object.entries(Ext!.ComponentMgr.types)) {
       types.set(c, xTypeAliases[n] || n);
     }
     indexMap = new Map();
@@ -60,7 +58,7 @@ export class Detector {
     return this.forest;
   }
 
-  private findRoots(): ExtJSComponent[] {
+  private findRoots(): Ext.Component[] {
     return window.Ext!.ComponentMgr.all.items.filter(i => !i.ownerCt && !i.initialConfig['ownerCt']);
   }
 
@@ -79,9 +77,9 @@ export const getComponent = (el: HTMLElement) => {
   return null;
 };
 
-const extJSComponentToNodeWithChildren = (i: ExtJSComponent): ComponentNode => addChildren(extJSComponentToNode(i));
+const extJSComponentToNodeWithChildren = (i: Ext.Component): ComponentNode => addChildren(extJSComponentToNode(i));
 
-const extJSComponentToNode = (i: ExtJSComponent): ComponentNode => {
+const extJSComponentToNode = (i: Ext.Component): ComponentNode => {
   return {
     id: i.id,
     type: types.get(i.constructor) || types.get(i.superclass().constructor) || '??',

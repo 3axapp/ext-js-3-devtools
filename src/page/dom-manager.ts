@@ -39,6 +39,9 @@ export class DomManager {
         initialConfig: {
           props: this.stateSerializer.serialize(this.selectedNode.component.initialConfig),
         },
+        listeners: {
+          props: this.stateSerializer.serialize(this.collectListeners(this.selectedNode.component)),
+        },
       };
     }
     this.bus.emit('latestComponentExplorerView', view);
@@ -77,10 +80,14 @@ export class DomManager {
         return emitEmpty();
       }
       let data: any = current;
-      for (const prop of propPath) {
-        data = data[prop];
-        if (!data) {
-          console.error('Cannot access the properties', propPath, 'of', node);
+      if (this.isListenersProp(propPath)) {
+        data = this.getNestedListenersProperties(current, propPath);
+      } else {
+        for (const prop of propPath) {
+          data = data[prop];
+          if (!data) {
+            console.error('Cannot access the properties', propPath, 'of', node);
+          }
         }
       }
       this.bus.emit('nestedProperties',
@@ -111,7 +118,7 @@ export class DomManager {
   }
 
   private initDetectorEvents() {
-    this.detector.onChange(()=>{
+    this.detector.onChange(() => {
       if (!this.detector.has(this.selectedNode)) {
         this.selectedNode = void 0;
       }
@@ -122,6 +129,35 @@ export class DomManager {
 
   private initComplete() {
     this.bus.emit('backendReady');
+  }
+
+  private collectListeners(component: Ext.Component): Listeners {
+    const listeners: Record<string, Function[]> = {};
+
+    for (let [name, value] of Object.entries(component.events)) {
+      if (typeof value === 'boolean' || value.listeners.length === 0) {
+        continue;
+      }
+      listeners[name] = [];
+      for (let listener of value.listeners) {
+        listeners[name].push(listener.fn);
+      }
+
+    }
+
+    return listeners;
+  }
+
+  private isListenersProp(propPath: string[]) {
+    return propPath[0] === 'listeners';
+  }
+
+  private getNestedListenersProperties(component: Ext.Component, propPath: string[]) {
+    const listenersCollection = component.events[propPath[1]];
+    if (typeof listenersCollection === 'boolean') {
+      return [];
+    }
+    return listenersCollection.listeners.map(i => i.fn);
   }
 }
 
@@ -134,5 +170,7 @@ const componentToDevTools = (node: ComponentNode): DevToolsNode => ({
   children: node.children.map(componentToDevTools),
 });
 
+type Listeners = Record<string, Listener[]>;
 
-
+interface Listener {
+}

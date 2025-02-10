@@ -1,13 +1,11 @@
-import {ExtJSComponent} from './ext-js/ext-js';
-
 export class DevToolsConsole {
 
   private readonly prefix = '$ext';
   private readonly capacity = 5;
 
-  private list: ExtJSComponent[] = [];
+  private list: Ext.Component[] = [];
 
-  public setReference(component: ExtJSComponent | null) {
+  public setReference(component: Ext.Component | null) {
     if (!component) {
       return;
     }
@@ -17,7 +15,7 @@ export class DevToolsConsole {
   }
 
 
-  private before(component: ExtJSComponent) {
+  private before(component: Ext.Component) {
     const foundIndex = this.list.indexOf(component);
     if (foundIndex !== -1) {
       this.list.splice(foundIndex, 1);
@@ -26,7 +24,7 @@ export class DevToolsConsole {
     }
   };
 
-  private insert(component: ExtJSComponent) {
+  private insert(component: Ext.Component) {
     this.list.unshift(component);
   }
 

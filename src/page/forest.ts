@@ -1,5 +1,4 @@
 import {ElementPath} from '../app/protocols/messages';
-import {ExtJSComponent} from './ext-js/ext-js';
 
 export interface ComponentNode {
   id: string,
@@ -7,7 +6,7 @@ export interface ComponentNode {
   ctype: string,
   xtype?: string,
   modal: boolean,
-  component: ExtJSComponent,
+  component: Ext.Component,
   children: ComponentNode[],
 }
 

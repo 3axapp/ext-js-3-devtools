@@ -47,8 +47,6 @@ export class ComponentExplorerComponent {
   private _clickedElement: IndexedNode | null = null;
   private readonly _messageBus = inject<PortBus<Events>>(PortBus);
 
-  // private _refreshRetryTimeout: null | ReturnType<typeof setTimeout> = null;
-
   constructor() {
     this.subscribeToBackendEvents();
     this.refresh();
@@ -60,13 +58,6 @@ export class ComponentExplorerComponent {
 
   handleNodeSelection(node: IndexedNode | null): void {
     if (node) {
-      // // We want to guarantee that we're not reusing any of the previous properties.
-      // // That's possible if the user has selected an NgForOf and after that
-      // // they select another NgForOf instance. In this case, we don't want to diff the props
-      // // we want to render from scratch.
-      // if (this._clickedElement && !sameDirectives(this._clickedElement, node)) {
-      //   this._propResolver.clearProperties();
-      // }
       this._clickedElement = node;
       this._messageBus.emit('setSelectedComponent', node.path);
       this.refresh();
@@ -94,7 +85,6 @@ export class ComponentExplorerComponent {
       this.currentSelectedElement.set(this._clickedElement);
       if (view.properties && this._clickedElement) {
         this.properties.set(view.properties);
-        // this._propResolver.setProperties(this._clickedElement, view.properties);
       } else {
         this.properties.set(null);
       }
@@ -103,18 +93,6 @@ export class ComponentExplorerComponent {
 
   private refresh() {
     this._messageBus.emit('getLatestComponentExplorerView', this._constructViewQuery());
-    // // this._messageBus.emit('getRoutes');
-    // // If the event was not throttled, we no longer need to retry.
-    // if (success) {
-    //   this._refreshRetryTimeout && clearTimeout(this._refreshRetryTimeout);
-    //   this._refreshRetryTimeout = null;
-    //   return;
-    // }
-    // // If the event was throttled and we haven't scheduled a retry yet.
-    // if (!this._refreshRetryTimeout) {
-    //   this._refreshRetryTimeout = setTimeout(() => this.refresh(), 500);
-    // }
-    // // this.refreshHydrationNodeHighlightsIfNeeded();
   }
 
   private _constructViewQuery(): ComponentExplorerViewQuery | undefined {
@@ -123,7 +101,6 @@ export class ComponentExplorerComponent {
     }
     return {
       selectedElement: this._clickedElement.path,
-      // propertyQuery: this._getPropertyQuery(),
     };
   }
 
@@ -143,14 +120,11 @@ export class ComponentExplorerComponent {
       propertyPath.push(node.name);
       node = node.parent;
     }
-    const strPath = ($event.parents || []).concat(propertyPath.reverse())
+    const strPath = this.preparePropertyPathForInspect($event.parents, propertyPath)
       .map(i => String(+i) === String(i) ? `[${i}]` : `.${i}`)
       .join('');
     const script = `inspect(Ext.getCmp("${t.id}")${strPath})`;
-
     chrome.devtools.inspectedWindow.eval(script);
-    // }
-    // this._messageBus.emit('inspect', t.id, propertyPath.reverse().join('.'))
   }
 
   highlightPropertyComponent($event: { node: PropertyFlatNode; componentPath: ElementPath, parents?: string[] }) {
@@ -164,5 +138,12 @@ export class ComponentExplorerComponent {
     }
 
     this.highlightComponent(foundNode.path);
+  }
+
+  private preparePropertyPathForInspect(parents: string[] | undefined, propertyPath: string[]) {
+    if (parents && parents[0] == 'listeners') {
+      return ['events', propertyPath[1], 'listeners', propertyPath[0], 'fn'];
+    }
+    return (parents || []).concat(propertyPath.reverse());
   }
 }
