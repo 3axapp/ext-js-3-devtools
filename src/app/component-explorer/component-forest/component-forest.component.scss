@@ -39,6 +39,14 @@
       color: #9b4807;
     }
 
+    .name {
+      color: #073d69;
+
+      &__value {
+        color: #9b4807;
+      }
+    }
+
     .console-reference {
       color: #748591;
       padding-left: 8px;

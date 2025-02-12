@@ -34,6 +34,7 @@ export declare global {
       id: string;
       ctype: string;
       xtype?: string;
+      name?: string;
       initialConfig: Record<string, any>;
       modal?: boolean;
       items?: {

@@ -3,6 +3,7 @@ export interface DevToolsNode {
   type: string,
   ctype: string,
   xtype?: string,
+  name?: string,
   modal: boolean,
   children: DevToolsNode[],
 }

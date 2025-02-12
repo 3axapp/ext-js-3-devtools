@@ -9,7 +9,7 @@
       (keydown.enter)="emitNextMatched()"
       (keydown.shift.enter)="emitPrevMatched()"
       class="filter-input"
-      placeholder="Поиск компонента"
+      placeholder="Поиск компонента: .+ | #.+ | name=.+ "
     />
   </label>
   @if (hasMatched()) {

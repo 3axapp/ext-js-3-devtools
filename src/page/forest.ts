@@ -5,6 +5,7 @@ export interface ComponentNode {
   type: string,
   ctype: string,
   xtype?: string,
+  name?: string,
   modal: boolean,
   component: Ext.Component,
   children: ComponentNode[],
