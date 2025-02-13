@@ -85,6 +85,7 @@ const extJSComponentToNode = (i: Ext.Component): ComponentNode => {
     type: types.get(i.constructor) || types.get(i.superclass().constructor) || '??',
     ctype: i.ctype,
     xtype: i.xtype,
+    name: i.name,
     modal: Boolean(i.modal),
     component: i,
     children: [],

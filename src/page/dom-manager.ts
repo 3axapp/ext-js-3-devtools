@@ -166,6 +166,7 @@ const componentToDevTools = (node: ComponentNode): DevToolsNode => ({
   type: node.type,
   ctype: node.ctype,
   xtype: node.xtype,
+  name: node.name,
   modal: node.modal,
   children: node.children.map(componentToDevTools),
 });

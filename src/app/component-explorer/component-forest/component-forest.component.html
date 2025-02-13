@@ -39,7 +39,9 @@
           </button>
         }
         <span class="element-name">
-          {{ node.name }}@if (node.original.modal) {<span class="modal">[modal]</span>}
+          {{ node.name }}
+          @if (node.original.name) {<span class="name">name=<span class="name__value">"{{node.original.name}}"</span></span>}
+          @if (node.original.modal) {<span class="modal">[modal]</span>}
         </span>
 
         @if (isSelected(node)) {

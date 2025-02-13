@@ -16,6 +16,7 @@ function index(node: DevToolsNode, position: number, parents: ElementPath = []):
     type: node.type,
     ctype: node.ctype,
     modal: node.modal,
+    name: node.name,
     children: node.children.map((node, position) => index(node, position, path)),
   };
 }

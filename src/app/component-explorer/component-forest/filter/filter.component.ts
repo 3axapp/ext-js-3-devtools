@@ -17,21 +17,21 @@ import {MatTooltip} from '@angular/material/tooltip';
   styleUrl: './filter.component.scss'
 })
 export class FilterComponent {
-  readonly filter = output<string>();
-  readonly nextMatched = output<void>();
-  readonly prevMatched = output<void>();
+  public readonly filter = output<string>();
+  public readonly nextMatched = output<void>();
+  public readonly prevMatched = output<void>();
 
-  readonly hasMatched = input(false);
+  public readonly hasMatched = input(false);
 
-  emitFilter(event: Event): void {
+  public emitFilter(event: Event): void {
     this.filter.emit((event.target as HTMLInputElement).value);
   }
 
-  emitNextMatched(): void {
+  public emitNextMatched(): void {
     this.nextMatched.emit();
   }
 
-  emitPrevMatched(): void {
+  public emitPrevMatched(): void {
     this.prevMatched.emit();
   }
 }
