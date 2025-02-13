@@ -4,7 +4,12 @@
   (nextMatched)="nextMatched()"
   (prevMatched)="prevMatched()"
 ></app-filter>
-<cdk-virtual-scroll-viewport class="tree-wrapper" [itemSize]="itemHeight">
+<cdk-virtual-scroll-viewport
+  class="tree-wrapper"
+  [itemSize]="itemHeight"
+  (keydown)="keyDown($event)"
+  [tabindex]="-1"
+>
   <ng-container *cdkVirtualFor="let node of dataSource; let idx = index">
     <div
       [class]="{

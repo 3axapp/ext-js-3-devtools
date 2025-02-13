@@ -5,19 +5,21 @@ import {
   effect,
   ElementRef,
   inject,
-  input, output,
+  input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
 import {FilterComponent} from './filter/filter.component';
 import {DevToolsNode, ElementPath, Events} from '../../protocols/messages';
-import {CdkVirtualScrollViewport, CdkFixedSizeVirtualScroll, CdkVirtualForOf} from '@angular/cdk/scrolling';
+import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {ComponentDataSource, UpdateResult} from './models/component.data-source';
 import {FlatNode} from '../models/flat-node';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatIcon} from '@angular/material/icon';
 import {IndexedNode} from './models/index-forest';
 import {PortBus} from '../../protocols/port-bus';
+import {KeyManager} from './models/key-manager';
 
 @Component({
   selector: 'app-component-forest',
@@ -65,7 +67,7 @@ export class ComponentForestComponent {
   parents!: FlatNode[];
 
   private readonly highlightIDinTreeFromElement = signal<string | null>(null);
-
+  private keyManager = new KeyManager(this.treeControl, this.dataSource);
 
   constructor() {
     this.subscribeToInspectorEvents();
@@ -281,6 +283,16 @@ export class ComponentForestComponent {
     }
 
     return foundNode;
+  }
+
+  public keyDown($event: KeyboardEvent) {
+    if (!this.selectedNode) {
+      return;
+    }
+    const node = this.keyManager.onKeyDown(this.selectedNode, $event);
+    if (node) {
+      this.selectAndEnsureVisible(node);
+    }
   }
 
   private findComponent(id: string) {
