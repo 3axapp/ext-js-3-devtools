@@ -8,7 +8,7 @@
   class="tree-wrapper"
   [itemSize]="itemHeight"
   (keydown)="keyDown($event)"
-  [tabindex]="-1"
+  [tabindex]="0"
 >
   <ng-container *cdkVirtualFor="let node of dataSource; let idx = index">
     <div

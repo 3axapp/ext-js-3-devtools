@@ -283,9 +283,6 @@ export class ComponentForestComponent {
   }
 
   public keyDown($event: KeyboardEvent) {
-    if (!this.selectedNode) {
-      return;
-    }
     const node = this.keyManager.onKeyDown(this.selectedNode, $event);
     if (node) {
       this.selectAndEnsureVisible(node);
