@@ -18,5 +18,23 @@
 ![7.png](docs/7.gif)
 ### 8 Инспектировать функции компонента
 ![8.png](docs/8.gif)
+
 ## Не может
 варить кофе
+
+## Установка
+### 1. Собранное расширение
+Со страницы [релизов](https://github.com/3axapp/ext-js-3-devtools/releases) скачать файл `xpi` из `Assets`
+![releases.png](docs/releases.png)
+
+### 2. Собрать и установить как временное расширение
+Сборка
+```shell
+git clone git@github.com:3axapp/ext-js-3-devtools.git
+cd ext-js-3-devtools
+npm install
+make
+```
+В FF перейти в `about:debugging#/runtime/this-firefox` и загрузить временное расширение из папки `dist`.  
+
+_Подробнее:_ https://firefox-source-docs.mozilla.org/devtools-user/about_colon_debugging/index.html#this-firefox
