@@ -1,26 +1,42 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'sass:map';
 @use '@angular/material' as mat;
-@include mat.all-component-typographies();
-@include mat.core();
 
 html,
 body {
   padding: 0;
   margin: 0;
   height: 100%;
+  font-family: 'JetBrains Mono', monospace;
 }
+
+$custom-typography: mat.m2-define-legacy-typography-config(
+  $font-family: 'JetBrains Mono'
+);
+
+@include mat.core();
+@include mat.all-component-typographies($custom-typography);
 
 // Light theme
 $light-primary: mat.m2-define-palette(mat.$m2-grey-palette, 700, 200);
 $light-accent: mat.m2-define-palette(mat.$m2-blue-palette, 800);
-$light-theme: mat.m2-define-light-theme($light-primary, $light-accent);
+$light-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $light-primary,
+    accent: $light-accent,
+  ),
+));
 
 // Dark theme
 $dark-primary: mat.m2-define-palette(mat.$m2-blue-grey-palette, 50);
 $dark-accent: mat.m2-define-palette(mat.$m2-blue-palette, 200);
 $dark-theme: map.deep-merge(
-    mat.m2-define-dark-theme($dark-primary, $dark-accent),
+    mat.m2-define-dark-theme((
+      color: (
+        primary: $dark-primary,
+        accent: $dark-accent,
+      ),
+    )),
     (
       'color': (
         'background': (
@@ -41,18 +57,16 @@ $dark-theme: map.deep-merge(
     )
 );
 
-.light-theme {
-  @include mat.all-component-themes($light-theme);
+@include mat.all-component-themes($light-theme);
 
-  .mat-mdc-chip.mat-mdc-standard-chip {
-    --mdc-chip-container-height: 24px;
-  }
+.mat-mdc-chip.mat-mdc-standard-chip {
+  --mdc-chip-container-height: 24px;
 }
 
 .dark-theme {
   color-scheme: dark;
   background: #202124;
-  @include mat.all-component-themes($dark-theme);
+  @include mat.all-component-colors($dark-theme);
 
   .mat-mdc-chip.mat-mdc-standard-chip {
     --mdc-chip-container-height: 24px;
