@@ -1,0 +1,8 @@
+{
+  "version": { "license": "MIT" },
+  "categories": { "firefox": ["web-development"] },
+  "summary": {
+    "ru": "Ext JS 3 DevTools это расширение Firefox DevTools которое предоставляет возможности отладки для приложений Ext JS 3.4.",
+    "en-US": "Ext JS 3 DevTools is a Firefox DevTools extension that provides debugging capabilities for Ext JS 3.4 applications."
+  }
+}
