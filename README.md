@@ -1,6 +1,6 @@
 # Ext JS 3 DevTools
 ![main.png](docs/main.png)
-Firefox: https://addons.mozilla.org/en-US/firefox/addon/ext-js-3-devtools/  
+Firefox: https://addons.mozilla.org/firefox/addon/ext-js-3-devtools/  
 
 ## Может
 
@@ -33,7 +33,7 @@ _поддерживаются регулярки_
 
 ## Установка
 ### 1. Установить через средства браузера
-https://addons.mozilla.org/en-US/firefox/addon/ext-js-3-devtools/
+https://addons.mozilla.org/firefox/addon/ext-js-3-devtools/
 
 ### 2. Собранное расширение
 Со страницы [релизов](https://github.com/3axapp/ext-js-3-devtools/releases) скачать файл `xpi` из `Assets`
