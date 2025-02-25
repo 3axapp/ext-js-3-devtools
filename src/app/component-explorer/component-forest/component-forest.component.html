@@ -40,8 +40,9 @@
         }
         <span class="element-name">
           {{ node.name }}
-          @if (node.original.name) {<span class="name">name=<span class="name__value">"{{node.original.name}}"</span></span>}
-          @if (node.original.modal) {<span class="modal">[modal]</span>}
+          @if (node.original.name) { <span class="name">name=<span class="name__value">"{{node.original.name}}"</span></span> }
+          @if (node.original.modal) { <span class="modal">[modal]</span> }
+          @if (node.original.plugins.length) { <span class="plugins" title="Подключенные плагины">[{{node.original.plugins.join(', ')}}]</span> }
         </span>
 
         @if (isSelected(node)) {

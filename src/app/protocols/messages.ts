@@ -6,6 +6,7 @@ export interface DevToolsNode {
   name?: string,
   modal: boolean,
   children: DevToolsNode[],
+  plugins: string[],
 }
 
 export type ElementPath = number[];

@@ -42,6 +42,9 @@ export class DomManager {
         listeners: {
           props: this.stateSerializer.serialize(this.collectListeners(this.selectedNode.component)),
         },
+        // plugins: {
+        //   props: [],
+        // },
       };
     }
     this.bus.emit('latestComponentExplorerView', view);
@@ -169,6 +172,7 @@ const componentToDevTools = (node: ComponentNode): DevToolsNode => ({
   name: node.name,
   modal: node.modal,
   children: node.children.map(componentToDevTools),
+  plugins: node.plugins.map(p => (p.constructor as typeof Ext.Plugin).ptype || '?'),
 });
 
 type Listeners = Record<string, Listener[]>;

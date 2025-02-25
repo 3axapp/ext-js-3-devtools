@@ -9,6 +9,7 @@ export interface ComponentNode {
   modal: boolean,
   component: Ext.Component,
   children: ComponentNode[],
+  plugins: Ext.Plugin[],
 }
 
 export const queryDirectiveForest = (

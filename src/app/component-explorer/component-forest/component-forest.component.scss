@@ -34,7 +34,19 @@
       display: inline-block;
     }
 
+    .element-name {
+      > span {
+        &:not(:last-child) {
+          margin-right: 5px;
+        }
+      }
+    }
+
     .modal {
+      color: #9b4807;
+    }
+
+    .plugins {
       color: #9b4807;
     }
 

@@ -1,4 +1,4 @@
-// http://cdn.sencha.com/ext/gpl/3.4.1.1/docs/#!/api/Ext.Component
+// https://docs.sencha.com/extjs/3.4.0/#!/api/Ext.Component
 export const xTypeAliases: Record<string, string> = {
 //   xtype            Class
 // -------------    ------------------

@@ -5,6 +5,7 @@ export declare global {
       obj: Component,
       listeners: ComponentEventListener[],
     }
+
     interface ComponentEventListener {
       fireFn: Function,
       fn: Function,
@@ -26,6 +27,7 @@ export declare global {
         on: (event: string, cb: Function) => void;
       },
       types: Record<string, Function>,
+      ptypes: Record<string, Function>,
     };
 
     class Component {
@@ -46,6 +48,11 @@ export declare global {
         id: string,
       };
       events: Record<string, boolean | ComponentListenerCollection>;
+      plugins?: Plugin | Plugin[];
+    }
+
+    class Plugin {
+      static ptype: string;
     }
   }
 }

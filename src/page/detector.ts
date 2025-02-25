@@ -89,7 +89,15 @@ const extJSComponentToNode = (i: Ext.Component): ComponentNode => {
     modal: Boolean(i.modal),
     component: i,
     children: [],
+    plugins: collectExtJSPlugins(i),
   };
+};
+
+const collectExtJSPlugins = (i: Ext.Component): Ext.Plugin[] => {
+  if (!i.plugins) {
+    return [];
+  }
+  return Array.isArray(i.plugins) ? i.plugins : [i.plugins];
 };
 
 const addChildren = (i: ComponentNode): ComponentNode => {
