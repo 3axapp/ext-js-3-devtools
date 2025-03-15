@@ -19,11 +19,11 @@ import {DirectivePropertyResolver} from './directive-property-resolver';
     MatExpansionPanelHeader,
     MatTooltip,
     MatIcon,
-    PropertyViewTreeComponent
+    PropertyViewTreeComponent,
   ],
   templateUrl: './properties.component.html',
   standalone: true,
-  styleUrl: './properties.component.scss'
+  styleUrl: './properties.component.scss',
 })
 export class PropertiesComponent {
   currentSelectedElement = input.required<IndexedNode>();
@@ -34,6 +34,7 @@ export class PropertiesComponent {
   readonly highlight = output<{ node: FlatNode; componentPath: ElementPath, parents?: string[] }>();
   readonly removeHighlight = output<void>();
 
+  readonly documentationUrl = 'https://docs.sencha.com/extjs/3.4.0/#!/api/';
   readonly documentation = computed<string>(() => {
     return `https://docs.sencha.com/extjs/3.4.0/#!/api/${this.currentSelectedElement().type}`;
   });
@@ -41,7 +42,7 @@ export class PropertiesComponent {
   readonly panels = computed<Panels>(() => {
     const resolver = new DirectivePropertyResolver(this.messageBus, this.properties(), {
       element: this.currentSelectedElement().path,
-      directive: 0
+      directive: 0,
     });
     return [
       {
@@ -71,7 +72,7 @@ export class PropertiesComponent {
     this.inspect.emit({
       node,
       componentPath: this.currentSelectedElement().path,
-      parents
+      parents,
     });
   }
 
@@ -79,7 +80,7 @@ export class PropertiesComponent {
     this.highlight.emit({
       node,
       componentPath: this.currentSelectedElement().path,
-      parents
+      parents,
     });
   }
 }
