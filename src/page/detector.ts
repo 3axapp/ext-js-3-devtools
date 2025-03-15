@@ -37,6 +37,7 @@ export class Detector {
 
   public buildForest(): ComponentNode[] {
     types = new Map();
+    types.set(Ext.util.Observable, 'Ext.util.Observable');
     for (let [n, c] of Object.entries(Ext!.ComponentMgr.types)) {
       types.set(c, xTypeAliases[n] || n);
     }
