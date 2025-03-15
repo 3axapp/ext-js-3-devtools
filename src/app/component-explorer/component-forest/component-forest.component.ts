@@ -5,19 +5,24 @@ import {
   effect,
   ElementRef,
   inject,
-  input, output,
+  input,
+  output,
   signal,
   viewChild,
 } from '@angular/core';
 import {FilterComponent} from './filter/filter.component';
 import {DevToolsNode, ElementPath, Events} from '../../protocols/messages';
-import {CdkVirtualScrollViewport, CdkFixedSizeVirtualScroll, CdkVirtualForOf} from '@angular/cdk/scrolling';
+import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {ComponentDataSource, UpdateResult} from './models/component.data-source';
 import {FlatNode} from '../models/flat-node';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatIcon} from '@angular/material/icon';
 import {IndexedNode} from './models/index-forest';
 import {PortBus} from '../../protocols/port-bus';
+import {filterFactory} from './models/filters/filter-factory';
+import {Filter} from './models/filters/filter';
+import {DefaultFilter} from './models/filters/default.filter';
+import {KeyManager} from './models/key-manager';
 
 @Component({
   selector: 'app-component-forest',
@@ -36,38 +41,38 @@ import {PortBus} from '../../protocols/port-bus';
 export class ComponentForestComponent {
   private _initialized = false;
 
-  readonly itemHeight = 18;
+  public readonly itemHeight = 18;
 
   private readonly _messageBus = inject<PortBus<Events>>(PortBus);
 
-  readonly selectNode = output<IndexedNode | null>();
-  readonly setParents = output<FlatNode[] | null>();
-  readonly selectDomElement = output<IndexedNode>();
-  readonly highlightComponent = output<ElementPath>();
-  readonly removeComponentHighlight = output<void>();
-  readonly toggleInspector = output<void>();
+  public readonly selectNode = output<IndexedNode | null>();
+  public readonly setParents = output<FlatNode[] | null>();
+  public readonly selectDomElement = output<IndexedNode>();
+  public readonly highlightComponent = output<ElementPath>();
+  public readonly removeComponentHighlight = output<void>();
+  public readonly toggleInspector = output<void>();
 
-  readonly forest = input<DevToolsNode[]>([]);
+  public readonly forest = input<DevToolsNode[]>([]);
 
   private readonly updateForestResult = computed(() => this._updateForest(this.forest()));
-  readonly treeControl = new FlatTreeControl<FlatNode>(
+  public readonly treeControl = new FlatTreeControl<FlatNode>(
     (node) => node!.level,
     (node) => node.expandable,
   );
-  readonly dataSource = new ComponentDataSource(this.treeControl);
-  readonly viewport = viewChild.required<CdkVirtualScrollViewport>(CdkVirtualScrollViewport);
+  public readonly dataSource = new ComponentDataSource(this.treeControl);
+  private readonly viewport = viewChild.required<CdkVirtualScrollViewport>(CdkVirtualScrollViewport);
   private resizeObserver: ResizeObserver;
   private elementRef = inject(ElementRef);
-  filterRegex = new RegExp('.^');
-  currentlyMatchedIndex = -1;
+  private filter: Filter = new DefaultFilter('.^');
+  private currentlyMatchedIndex = -1;
 
-  selectedNode: FlatNode | null = null;
-  parents!: FlatNode[];
+  private selectedNode: FlatNode | null = null;
+  private parents!: FlatNode[];
 
   private readonly highlightIDinTreeFromElement = signal<string | null>(null);
+  private keyManager = new KeyManager(this.treeControl, this.dataSource);
 
-
-  constructor() {
+  public constructor() {
     this.subscribeToInspectorEvents();
     afterRenderEffect(() => {
       // this._tabUpdate.tabUpdate();
@@ -94,7 +99,7 @@ export class ComponentForestComponent {
     });
   }
 
-  subscribeToInspectorEvents() {
+  private subscribeToInspectorEvents() {
     this._messageBus.on('selectComponent', (id) => {
       this.selectNodeByComponentId(id);
     });
@@ -108,7 +113,7 @@ export class ComponentForestComponent {
     });
   }
 
-  selectNodeByComponentId(id: string) {
+  public selectNodeByComponentId(id: string) {
     const foundNode = this.findComponent(id);
     if (foundNode) {
       this.handleSelect(foundNode);
@@ -133,7 +138,7 @@ export class ComponentForestComponent {
     return result;
   }
 
-  get hasMatched(): boolean {
+  public get hasMatched(): boolean {
     return this._findMatchedNodes().length > 0;
   }
 
@@ -147,7 +152,7 @@ export class ComponentForestComponent {
     return indexesOfMatchedNodes;
   }
 
-  nextMatched(): void {
+  public nextMatched(): void {
     const indexesOfMatchedNodes = this._findMatchedNodes();
     this.currentlyMatchedIndex = (this.currentlyMatchedIndex + 1) % indexesOfMatchedNodes.length;
     const indexToSelect = indexesOfMatchedNodes[this.currentlyMatchedIndex];
@@ -162,7 +167,7 @@ export class ComponentForestComponent {
     }
   }
 
-  prevMatched(): void {
+  public prevMatched(): void {
     const indexesOfMatchedNodes = this._findMatchedNodes();
     this.currentlyMatchedIndex =
       (this.currentlyMatchedIndex - 1 + indexesOfMatchedNodes.length) %
@@ -179,37 +184,32 @@ export class ComponentForestComponent {
     }
   }
 
-  expandParents(): void {
+  private expandParents(): void {
     this.parents.forEach((parent) => this.treeControl.expand(parent));
   }
 
-  handleFilter(filterText: string): void {
+  public handleFilter(filterText: string): void {
     this.currentlyMatchedIndex = -1;
-
-    try {
-      this.filterRegex = new RegExp(filterText.toLowerCase() || '.^');
-    } catch {
-      this.filterRegex = new RegExp('.^');
-    }
+    this.filter = filterFactory(filterText);
   }
 
-  stopPropagation(event: Event): void {
+  public stopPropagation(event: Event): void {
     event.stopPropagation();
   }
 
-  isMatched(node: FlatNode): boolean {
-    return this.filterRegex.test(node.name.toLowerCase());
+  public isMatched(node: FlatNode): boolean {
+    return this.filter.isMatched(node);
   }
 
-  isSelected(node: FlatNode): boolean {
+  public isSelected(node: FlatNode): boolean {
     return this.selectedNode?.id === node.id;
   }
 
-  isHighlighted(node: FlatNode): boolean {
+  public isHighlighted(node: FlatNode): boolean {
     return this.highlightIDinTreeFromElement() === node.id;
   }
 
-  selectAndEnsureVisible(node: FlatNode): void {
+  public selectAndEnsureVisible(node: FlatNode): void {
     this.select(node);
 
     const scrollParent = this.viewport().elementRef.nativeElement;
@@ -231,8 +231,7 @@ export class ComponentForestComponent {
     }
   }
 
-
-  select(node: FlatNode): void {
+  private select(node: FlatNode): void {
     this.populateParents(node.path);
     this.selectNode.emit(node.original);
     this.selectedNode = node;
@@ -254,20 +253,20 @@ export class ComponentForestComponent {
     this.setParents.emit(this.parents);
   }
 
-  handleSelectDomElement(node: FlatNode): void {
+  public handleSelectDomElement(node: FlatNode): void {
     this.selectDomElement.emit(node.original);
   }
 
-  highlightNode(position: ElementPath): void {
+  public highlightNode(position: ElementPath): void {
     this.highlightIDinTreeFromElement.set(null);
     this.highlightComponent.emit(position);
   }
 
-  removeHighlight(): void {
+  public removeHighlight(): void {
     this.removeComponentHighlight.emit();
   }
 
-  handleSelect(node: FlatNode): void {
+  public handleSelect(node: FlatNode): void {
     this.currentlyMatchedIndex = this.dataSource.data.findIndex(
       (matchedNode) => matchedNode.id === node.id,
     );
@@ -281,6 +280,13 @@ export class ComponentForestComponent {
     }
 
     return foundNode;
+  }
+
+  public keyDown($event: KeyboardEvent) {
+    const node = this.keyManager.onKeyDown(this.selectedNode, $event);
+    if (node) {
+      this.selectAndEnsureVisible(node);
+    }
   }
 
   private findComponent(id: string) {

@@ -1,6 +1,6 @@
 import {WindowBus} from './window-bus';
 import {ComponentExplorerView, DevToolsNode, ElementPath, Events} from '../app/protocols/messages';
-import {Detector} from './detector';
+import {Detector, types} from './detector';
 import {ComponentNode, queryDirectiveForest} from './forest';
 import {ComponentInspector} from './component-inspector/component-inspector';
 import {StateSerializer} from './state-serializer/state-serializer';
@@ -42,6 +42,7 @@ export class DomManager {
         listeners: {
           props: this.stateSerializer.serialize(this.collectListeners(this.selectedNode.component)),
         },
+        parentClasses: this.collectParentClasses(this.selectedNode.component),
       };
     }
     this.bus.emit('latestComponentExplorerView', view);
@@ -148,6 +149,18 @@ export class DomManager {
     return listeners;
   }
 
+  private collectParentClasses(component: Ext.Component): ParentClasses {
+    const parents: string[] = [];
+    let n = component;
+
+    while (typeof n.superclass === 'function') {
+      parents.push(types.get(n.superclass().constructor) || '??');
+      n = n.superclass();
+    }
+
+    return parents;
+  }
+
   private isListenersProp(propPath: string[]) {
     return propPath[0] === 'listeners';
   }
@@ -166,6 +179,7 @@ const componentToDevTools = (node: ComponentNode): DevToolsNode => ({
   type: node.type,
   ctype: node.ctype,
   xtype: node.xtype,
+  name: node.name,
   modal: node.modal,
   children: node.children.map(componentToDevTools),
 });
@@ -174,3 +188,5 @@ type Listeners = Record<string, Listener[]>;
 
 interface Listener {
 }
+
+export type ParentClasses = string[];

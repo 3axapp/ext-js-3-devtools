@@ -1,8 +1,11 @@
+import {ParentClasses} from '../../page/dom-manager';
+
 export interface DevToolsNode {
   id: string,
   type: string,
   ctype: string,
   xtype?: string,
+  name?: string,
   modal: boolean,
   children: DevToolsNode[],
 }
@@ -22,6 +25,7 @@ export interface ComponentProperties {
   properties: Properties,
   initialConfig: Properties,
   listeners: Properties,
+  parentClasses: ParentClasses,
 }
 
 export interface Events extends Record<string, any> {

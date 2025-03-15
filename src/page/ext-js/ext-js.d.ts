@@ -5,6 +5,7 @@ export declare global {
       obj: Component,
       listeners: ComponentEventListener[],
     }
+
     interface ComponentEventListener {
       fireFn: Function,
       fn: Function,
@@ -28,12 +29,20 @@ export declare global {
       types: Record<string, Function>,
     };
 
+    const util: {
+      Observable: {
+        new(...args): any,
+      }
+    };
+
     class Component {
       constructor(...args: any[]);
+
       superclass: () => Component;
       id: string;
       ctype: string;
       xtype?: string;
+      name?: string;
       initialConfig: Record<string, any>;
       modal?: boolean;
       items?: {

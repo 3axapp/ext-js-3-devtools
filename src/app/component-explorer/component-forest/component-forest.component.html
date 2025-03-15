@@ -4,7 +4,12 @@
   (nextMatched)="nextMatched()"
   (prevMatched)="prevMatched()"
 ></app-filter>
-<cdk-virtual-scroll-viewport class="tree-wrapper" [itemSize]="itemHeight">
+<cdk-virtual-scroll-viewport
+  class="tree-wrapper"
+  [itemSize]="itemHeight"
+  (keydown)="keyDown($event)"
+  [tabindex]="0"
+>
   <ng-container *cdkVirtualFor="let node of dataSource; let idx = index">
     <div
       [class]="{
@@ -34,7 +39,9 @@
           </button>
         }
         <span class="element-name">
-          {{ node.name }}@if (node.original.modal) {<span class="modal">[modal]</span>}
+          {{ node.name }}
+          @if (node.original.name) {<span class="name">name=<span class="name__value">"{{node.original.name}}"</span></span>}
+          @if (node.original.modal) {<span class="modal">[modal]</span>}
         </span>
 
         @if (isSelected(node)) {

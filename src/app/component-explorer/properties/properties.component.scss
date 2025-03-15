@@ -6,40 +6,39 @@
   font-size: 13px;
 
   .component-name {
-    margin-left: 10px;
     font-weight: 700;
     line-height: 25px;
     font-size: 0.8em;
-    font-family: Menlo, monospace;
 
     .documentation {
-      display: inline-flex;
       align-self: center;
       text-decoration: none;
-    }
-
-    .docs-link {
-      color: #000000de;
-      height: inherit;
-      width: fit-content;
-      font-size: initial;
-      padding-left: 0.1rem;
-
-      &:active {
-        color: #1b1aa5;
-      }
     }
   }
 
   .element-name {
-    margin-left: 10px;
+    margin-left: 15px;
     line-height: 25px;
     font-weight: 700;
   }
 }
 
-.component-properties {
 
+.docs-link {
+  color: #000000de;
+  height: inherit;
+  width: fit-content;
+  font-size: initial;
+  padding-right: 0.1rem;
+  margin-bottom: -3px;
+
+  &:active {
+    color: #1b1aa5;
+  }
+}
+
+.component-properties {
+  font-size: 0.8em;
 }
 
 mat-expansion-panel {
@@ -61,7 +60,6 @@ mat-expansion-panel {
 
 .mat-expansion-panel-header-title {
   font-size: 0.8em;
-  font-family: Menlo, monospace;
 }
 
 .mat-expansion-indicator {
@@ -69,6 +67,10 @@ mat-expansion-panel {
     padding: 2.5px;
     margin-bottom: 4.5px;
   }
+}
+
+.parent-class {
+  font-size: 0.8em;
 }
 
 :host-context(.dark-theme) {

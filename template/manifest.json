@@ -1,10 +1,11 @@
 {
   "manifest_version": 3,
+  "default_locale": "ru",
   "name": "Ext JS 3 DevTools",
-  "description": "Ext JS 3 DevTools - для отладки приложений написанных на Ext JS 3",
+  "description": "__MSG_extensionDescription__",
   "author": "Захаров Александр",
   "homepage_url": "https://github.com/3axapp/ext-js-3-devtools",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
