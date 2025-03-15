@@ -29,7 +29,7 @@ for (let event of events) {
 }
 
 port.onDisconnect.addListener(() => {
-  console.log('port disconnect')
+  console.log('port disconnect');
   backgroundDisconnected = true;
   windowBus.emit('shutdown');
   windowBus.destroy();
@@ -39,6 +39,17 @@ port.onMessage.addListener((m) => {
   windowBus.emit(m.topic, ...m.args);
 });
 
+function pingBackground(): void {
+  if (backgroundDisconnected) {
+    return;
+  }
+
+  port.postMessage({topic: 'ping'});
+
+  setTimeout(() => pingBackground(), 10_000);
+}
+
+pingBackground();
 
 const s = document.createElement("script");
 s.src = chrome.runtime.getURL("/page.js");
