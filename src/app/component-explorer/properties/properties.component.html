@@ -2,7 +2,6 @@
   <div class="element-header">
     <div class="element-name">
       <div class="component-name">
-        <span>{{ currentSelectedElement().type }}</span>
         <a
           href="{{documentation()}}"
           target="_blank"
@@ -11,10 +10,33 @@
           (click)="$event.stopPropagation()"
         >
           <mat-icon class="docs-link">open_in_new</mat-icon>
-        </a></div>
+        </a>
+        <span>{{ currentSelectedElement().type }}</span>
+      </div>
     </div>
   </div>
   <div class="component-properties">
+    <mat-expansion-panel [expanded]="false">
+      <mat-expansion-panel-header collapsedHeight="25px" expandedHeight="25px">
+        <mat-panel-title>
+          Родительские классы
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      @for (type of properties().parentClasses; track $index) {
+        <div class="parent-class">
+          <a
+            href="{{documentationUrl + type}}"
+            target="_blank"
+            class="documentation"
+            matTooltip="Открыть документацию на sencha.com"
+            (click)="$event.stopPropagation()"
+          >
+            <mat-icon class="docs-link">open_in_new</mat-icon>
+          </a>
+          <span>{{ type }}</span>
+        </div>
+      }
+    </mat-expansion-panel>
     @for (panel of panels(); track $index) {
       <mat-expansion-panel [class]="panel.class" [expanded]="true">
         <mat-expansion-panel-header collapsedHeight="25px" expandedHeight="25px">
