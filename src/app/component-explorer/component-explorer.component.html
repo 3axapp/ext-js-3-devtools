@@ -22,13 +22,15 @@
     </as-split>
   </as-split-area>
   <as-split-area size="40" minSize="25" class="prop-split">
-    <app-properties *ngIf="properties()"
-      class="property-tab-wrapper"
-      [currentSelectedElement]="currentSelectedElement()!"
-      [properties]="properties()!"
-      (inspect)="inspect($event)"
-      (highlight)="highlightPropertyComponent($event)"
-      (removeHighlight)="removeComponentHighlight()"
-    ></app-properties>
+    @if (properties()) {
+      <app-properties
+        class="property-tab-wrapper"
+        [currentSelectedElement]="currentSelectedElement()!"
+        [properties]="properties()!"
+        (inspect)="inspect($event)"
+        (highlight)="highlightPropertyComponent($event)"
+        (removeHighlight)="removeComponentHighlight()"
+      ></app-properties>
+    }
   </as-split-area>
 </as-split>

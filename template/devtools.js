@@ -1,1 +1,1 @@
-chrome.devtools.panels.create("Ext JS 3", "assets/icon.svg", "/devtools/index.html");
+chrome.devtools.panels.create("Ext JS 3", "assets/icon.svg", "/devtools/browser/index.html");
