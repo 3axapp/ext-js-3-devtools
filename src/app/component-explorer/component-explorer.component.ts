@@ -16,7 +16,7 @@ import {
 import {PropertiesComponent} from './properties/properties.component';
 import {IndexedNode} from './component-forest/models/index-forest';
 import {PortBus} from '../protocols/port-bus';
-import {NgIf} from '@angular/common';
+
 
 @Component({
   selector: 'app-component-explorer',
@@ -25,9 +25,8 @@ import {NgIf} from '@angular/common';
     SplitAreaComponent,
     BreadcrumbsComponent,
     ComponentForestComponent,
-    PropertiesComponent,
-    NgIf,
-  ],
+    PropertiesComponent
+],
   templateUrl: './component-explorer.component.html',
   standalone: true,
   styleUrl: './component-explorer.component.scss',
