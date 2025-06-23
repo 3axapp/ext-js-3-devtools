@@ -1,7 +1,6 @@
 import {
   afterRenderEffect,
   Component,
-  computed,
   effect,
   ElementRef,
   inject,
@@ -54,7 +53,7 @@ export class ComponentForestComponent {
 
   public readonly forest = input<DevToolsNode[]>([]);
 
-  private readonly updateForestResult = computed(() => this._updateForest(this.forest()));
+  // private readonly updateForestResult = computed(() => this._updateForest(this.forest()));
   public readonly treeControl = new FlatTreeControl<FlatNode>(
     (node) => node!.level,
     (node) => node.expandable,
@@ -89,13 +88,17 @@ export class ComponentForestComponent {
     });
     this.resizeObserver.observe(this.elementRef.nativeElement);
 
+    // effect(() => {
+    //   const result = this.updateForestResult();
+    //   const changed =
+    //     result.movedItems.length || result.newItems.length || result.removedItems.length;
+    //   // if (this.currentSelectedElement() && changed) {
+    //   //   this._reselectNodeOnUpdate();
+    //   // }
+    // });
+
     effect(() => {
-      const result = this.updateForestResult();
-      const changed =
-        result.movedItems.length || result.newItems.length || result.removedItems.length;
-      // if (this.currentSelectedElement() && changed) {
-      //   this._reselectNodeOnUpdate();
-      // }
+      this._updateForest(this.forest());
     });
   }
 
