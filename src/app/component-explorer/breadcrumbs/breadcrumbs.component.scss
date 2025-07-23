@@ -7,9 +7,10 @@
 
   .scroll-button {
     height: 100%;
-    background-color: rgb(243, 243, 243);
+    background-color: var(--bg1);
     border: none;
     cursor: pointer;
+    color: var(--color2);
 
     &.hidden {
       visibility: hidden;
@@ -32,7 +33,7 @@
       height: 24px;
 
       &.selected {
-        background-color: rgb(243, 243, 243);
+        background-color: var(--bg1);
       }
     }
   }
@@ -43,36 +44,10 @@
     font-size: 11px;
     margin-right: 5px;
     width: fit-content;
-    color: #8a1882;
+    color: var(--color1);
 
     &:hover {
-      background-color: #ebf1fb;
-    }
-  }
-}
-
-:host-context(.dark-theme) {
-  .mdc-card {
-    &.breadcrumb-card {
-      .scroll-button {
-        background-color: rgb(41, 42, 45);
-        color: #ffffff;
-      }
-
-      .breadcrumbs {
-        button {
-          &.selected {
-            background-color: rgb(41, 42, 45);
-          }
-        }
-      }
-
-      .mdc-button {
-        color: #5caace;
-        &:hover {
-          background-color: #093e69;
-        }
-      }
+      background-color: var(--bg2);
     }
   }
 }

@@ -1,5 +1,4 @@
 $base-font-size: 0.8em;
-$disable-color: #333;
 
 :host {
   width: 100%;
@@ -42,32 +41,24 @@ mat-tree {
 
   mat-tree-node {
     .name {
-      color: #ce271e;
+      color: var(--color-property-list-name);
       font-weight: 500;
     }
 
     &.disabled {
       .name {
-        color: $disable-color;
+        color: var(--color-disabled);
       }
     }
   }
 }
 
 .disabled {
-  color: $disable-color;
+  color: var(--color-disabled);
 }
 
 .arrow {
   font-family: monospace;
   font-size: 0.5em;
-  color: #6e6e6e;
-}
-
-:host-context(.dark-theme) {
-  .property-list {
-    .name {
-      color: #54c9bd !important;
-    }
-  }
+  color: var(--color-property-tree-arrow);
 }
