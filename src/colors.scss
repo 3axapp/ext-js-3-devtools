@@ -1,0 +1,86 @@
+$dark-color-background-background: #202124;
+$dark-color-foreground-text: #bcc5ce;
+$disable-color: #333;
+
+:root {
+  --color-separator: oklch(91% 0.04 258);
+  --color-new-node: oklch(83% 0.2 258);
+
+  --bg1: rgb(243, 243, 243);
+  --bg2: #ebf1fb;
+  --bg3: #cfe8fc;
+
+  --color1: #8a1882;
+  --color2: initial;
+
+  //--color2: #8a1882;
+  --color3: #ebf1fb;
+  --color4: rgb(41, 42, 45);
+
+  --color-disabled: #333;
+
+  --color-tree-node: #8a1882;
+  --color-tree-node-icon: initial;
+  --color-tree-node-hover: #ebf1fb;
+  --color-tree-node-matched: #ebf1fb;
+  --color-tree-node-matched-hover: #cfe8fc;
+  --color-tree-node-highlighted: #cfe8fc;
+
+  --color-component-modal: #9b4807;
+  --color-component-name: #073d69;
+  --color-component-name-value: #9b4807;
+  --color-console-reference: #748591;
+
+  --color-filter: rgba(0, 0, 0, 0.87);
+  --color-filter-shadow: rgba(0, 0, 0, 0.03);
+  --bg-filter: none;
+
+  --color-property-docs-link: #000000de;
+  --color-property-docs-link-active: #1b1aa5;
+
+  --color-property-function: #fff;
+  --bg-property-function: #4da1ff;
+
+  --color-property-list-name: #ce271e;
+  --color-property-tree-arrow: #6e6e6e;
+
+  --color-inspector-active: #1a73e8;
+
+  --shadow-properties-expansion-panel: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+
+  .dark-theme {
+    --color-separator: oklch(47% 0 0);
+    --color-new-node: oklch(33% 0.11 258);
+
+    --color1: #5caace;
+    --color2: #ffffff;
+    --color-tree-node: #5cadd3;
+    --color-tree-node-icon: #bcc5ce;
+    --color-tree-node-hover: #262d36;
+    --color-tree-node-matched: #262d36;
+    --color-tree-node-matched-hover: #073d69;
+    --color-tree-node-highlighted: #073d69;
+
+    --color-component-modal: #91adcb;
+    --color-component-name: #9ec0f9;
+    --color-component-name-value: #d29263;
+    --color-console-reference: #748591;
+
+    --bg1: rgb(41, 42, 45);
+    --bg2: #093e69;
+
+    --color-filter: #ffffff;
+    --color-filter-shadow: rgba(255, 255, 255, 0.03);
+    --bg-filter: #202124;
+
+    --color-property-docs-link: #bcc5ce;
+    --color-property-docs-link-active: #5caace;
+
+    --color-property-list-name: #54c9bd;
+
+    --color-inspector-active: #4688f1;
+
+    --shadow-properties-expansion-panel: 0px 3px 1px -2px rgba(255, 255, 255, 0.2), 0px 2px 2px 0px rgba(255, 255, 255, 0.14), 0px 1px 5px 0px rgba(255, 255, 255, 0.12);
+  }
+
+}

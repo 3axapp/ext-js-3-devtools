@@ -11,6 +11,7 @@
     "48": "assets/icon.svg"
   },
   "permissions": [
+    "storage",
     "activeTab",
     "http://*/*",
     "https://*/*",

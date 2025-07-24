@@ -5,7 +5,7 @@
 
   .tree-node {
     position: relative;
-    color: #8a1882;
+    color: var(--color-tree-node);
 
     cursor: default;
     font-size: 11px;
@@ -35,38 +35,38 @@
     }
 
     .modal {
-      color: #9b4807;
+      color: var(--color-component-modal);
     }
 
     .name {
-      color: #073d69;
+      color: var(--color-component-name);
 
       &__value {
-        color: #9b4807;
+        color: var(--color-component-name-value);
       }
     }
 
     .console-reference {
-      color: #748591;
+      color: var(--color-console-reference);
       padding-left: 8px;
       font-style: italic;
     }
 
     &:hover {
-      background-color: #ebf1fb;
+      background-color: var(--color-tree-node-hover);
     }
 
     &.matched {
-      background-color: #ebf1fb;
+      background-color: var(--color-tree-node-matched);
 
       &:hover {
-        background-color: #cfe8fc;
+        background-color: var(--color-tree-node-matched-hover);
       }
     }
 
     &.selected,
     &.highlighted {
-      background-color: #cfe8fc;
+      background-color: var(--color-tree-node-highlighted);
     }
   }
 }
@@ -76,7 +76,7 @@
     background-color: transparent;
   }
   50% {
-    background-color: #cfe8fc;
+    background-color: var(--color-new-node);
   }
   100% {
     background-color: transparent;
@@ -100,7 +100,7 @@
   .filter-input {
     border: none;
     background: rgba(0, 0, 0, 0.003);
-    box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+    box-shadow: inset 0 -2px 1px var(--color-filter-shadow);
     width: 100%;
     font-size: 2em;
     font-family: inherit;
@@ -118,35 +118,4 @@
 .tree-wrapper {
   overflow-y: auto;
   height: calc(100% - 33px);
-}
-
-:host-context(.dark-theme) {
-  .tree-node {
-    color: #5cadd3;
-
-    .mat-icon {
-      color: #bcc5ce;
-    }
-
-    .modal {
-      color: #91adcb;
-    }
-
-    &:hover {
-      background-color: #262d36;
-    }
-
-    &.matched {
-      background-color: #262d36;
-
-      &:hover {
-        background-color: #073d69;
-      }
-    }
-
-    &.selected,
-    &.highlighted {
-      background-color: #073d69;
-    }
-  }
 }
