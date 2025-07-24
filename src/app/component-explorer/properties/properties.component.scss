@@ -25,7 +25,7 @@
 
 
 .docs-link {
-  color: #000000de;
+  color: var(--color-property-docs-link);
   height: inherit;
   width: fit-content;
   font-size: initial;
@@ -33,7 +33,7 @@
   margin-bottom: -3px;
 
   &:active {
-    color: #1b1aa5;
+    color: var(--color-property-docs-link-active);
   }
 }
 
@@ -41,8 +41,9 @@
   font-size: 0.8em;
 }
 
-mat-expansion-panel {
+mat-expansion-panel.mat-expansion-panel:not([class*="mat-elevation-z"]) {
   border-radius: unset !important;
+  box-shadow: var(--shadow-properties-expansion-panel);
 }
 
 .mat-expansion-panel-body {
@@ -71,14 +72,4 @@ mat-expansion-panel {
 
 .parent-class {
   font-size: 0.8em;
-}
-
-:host-context(.dark-theme) {
-  .docs-link {
-    color: #bcc5ce;
-
-    &:active {
-      color: #5caace;
-    }
-  }
 }
