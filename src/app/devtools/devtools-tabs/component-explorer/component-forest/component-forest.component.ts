@@ -10,14 +10,14 @@ import {
   viewChild,
 } from '@angular/core';
 import {FilterComponent} from './filter/filter.component';
-import {DevToolsNode, ElementPath, Events} from '../../protocols/messages';
+import {DevToolsNode, ElementPath, Events} from '../../../../protocols/messages';
 import {CdkFixedSizeVirtualScroll, CdkVirtualForOf, CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 import {ComponentDataSource, UpdateResult} from './models/component.data-source';
 import {FlatNode} from '../models/flat-node';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatIcon} from '@angular/material/icon';
 import {IndexedNode} from './models/index-forest';
-import {PortBus} from '../../protocols/port-bus';
+import {PortBus} from '../../../../protocols/port-bus';
 import {filterFactory} from './models/filters/filter-factory';
 import {Filter} from './models/filters/filter';
 import {DefaultFilter} from './models/filters/default.filter';

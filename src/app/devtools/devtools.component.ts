@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
-import {DevtoolsTabsComponent} from '../devtools-tabs/devtools-tabs.component';
+import {DevtoolsTabsComponent} from './devtools-tabs/devtools-tabs.component';
 import {interval} from 'rxjs';
 import {Events} from '../protocols/messages';
 import {PortBus} from '../protocols/port-bus';
@@ -47,7 +47,7 @@ export class DevtoolsComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this._messageBus.on('contentScriptConnected', (frameId: number, name: string, url: string) => {
+    this._messageBus.on('contentScriptConnected', (frameId: number) => {
       this.extJSStatus.set(ExtJSStatuses.UNKNOWN);
       this._messageBus.emit('enableFrameConnection', frameId, chrome.devtools.inspectedWindow.tabId);
 

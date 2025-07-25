@@ -9,7 +9,7 @@
 import {MatTreeFlattener} from '@angular/material/tree';
 import {Observable} from 'rxjs';
 import {arrayifyProps, FlatNode, Property} from './properties';
-import {Descriptor, PropType} from '../../protocols/messages';
+import {Descriptor, PropType} from '../../../../protocols/messages';
 
 
 export const getTreeFlattener = () =>

@@ -2,10 +2,10 @@ import {CollectionViewer, DataSource, SelectionChange} from '@angular/cdk/collec
 import {arrayifyProps, FlatNode, Property} from './properties';
 import {BehaviorSubject, map, merge, Observable, Subscription} from 'rxjs';
 import {DefaultIterableDiffer, TrackByFunction} from '@angular/core';
-import {Descriptor, DirectivePosition, Events, Properties} from '../../protocols/messages';
+import {Descriptor, DirectivePosition, Events, Properties} from '../../../../protocols/messages';
 import {MatTreeFlattener} from '@angular/material/tree';
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {PortBus} from '../../protocols/port-bus';
+import {PortBus} from '../../../../protocols/port-bus';
 import {diff} from '../component-forest/models/diffing';
 
 export class PropertyDataSource extends DataSource<FlatNode> {

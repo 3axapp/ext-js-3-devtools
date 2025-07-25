@@ -1,4 +1,4 @@
-import {Descriptor} from '../../protocols/messages';
+import {Descriptor} from '../../../../protocols/messages';
 
 export interface FlatNode {
   expandable: boolean;

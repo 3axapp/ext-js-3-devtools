@@ -2,13 +2,13 @@ import {Component, computed, inject, input, output} from '@angular/core';
 import {IndexedNode} from '../component-forest/models/index-forest';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {PropertyDataSource} from './property-data-source';
-import {ComponentProperties, ElementPath} from '../../protocols/messages';
+import {ComponentProperties, ElementPath} from '../../../../protocols/messages';
 import {MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatTooltip} from '@angular/material/tooltip';
 import {MatIcon} from '@angular/material/icon';
 import {PropertyViewTreeComponent} from './property-view-tree/property-view-tree.component';
 import {FlatNode} from './properties';
-import {PortBus} from '../../protocols/port-bus';
+import {PortBus} from '../../../../protocols/port-bus';
 import {DirectivePropertyResolver} from './directive-property-resolver';
 
 @Component({

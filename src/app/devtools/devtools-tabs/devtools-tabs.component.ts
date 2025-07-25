@@ -1,10 +1,10 @@
 import {Component, inject, signal} from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {MatTooltip} from '@angular/material/tooltip';
-import {ComponentExplorerComponent} from '../component-explorer/component-explorer.component';
-import {PortBus} from '../protocols/port-bus';
-import {Events} from '../protocols/messages';
-import {ThemeService} from '../services/theme.service';
+import {ComponentExplorerComponent} from './component-explorer/component-explorer.component';
+import {PortBus} from '../../protocols/port-bus';
+import {Events} from '../../protocols/messages';
+import {ThemeService} from '../../services/theme.service';
 
 @Component({
   selector: 'app-devtools-tabs',

@@ -1,8 +1,8 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {PropertyDataSource} from './property-data-source';
 import {FlatNode, Property} from './properties';
-import {PortBus} from '../../protocols/port-bus';
-import {ComponentProperties, Descriptor, DirectivePosition, Events, Properties} from '../../protocols/messages';
+import {PortBus} from '../../../../protocols/port-bus';
+import {ComponentProperties, Descriptor, DirectivePosition, Events} from '../../../../protocols/messages';
 import {getTreeFlattener} from './flatten';
 
 export interface DirectiveTreeData {

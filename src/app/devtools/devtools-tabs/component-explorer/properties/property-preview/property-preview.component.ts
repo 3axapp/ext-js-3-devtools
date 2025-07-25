@@ -1,6 +1,6 @@
 import {Component, computed, input, output} from '@angular/core';
 import {FlatNode} from '../properties';
-import {PropType} from '../../../protocols/messages';
+import {PropType} from '../../../../../protocols/messages';
 
 @Component({
   selector: 'app-property-preview',

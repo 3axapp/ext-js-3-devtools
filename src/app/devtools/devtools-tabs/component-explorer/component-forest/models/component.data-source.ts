@@ -2,7 +2,7 @@ import {CollectionViewer, DataSource} from '@angular/cdk/collections';
 import {FlatNode} from '../../models/flat-node';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {BehaviorSubject, map, merge, Observable} from 'rxjs';
-import {DevToolsNode} from '../../../protocols/messages';
+import {DevToolsNode} from '../../../../../protocols/messages';
 import {IndexedNode, indexForest} from './index-forest';
 import {MatTreeFlattener} from '@angular/material/tree';
 import {diff} from './diffing';

@@ -1,4 +1,4 @@
-import {ElementPath} from '../../protocols/messages';
+import {ElementPath} from '../../../../protocols/messages';
 import {IndexedNode} from '../component-forest/models/index-forest';
 
 export interface FlatNode {

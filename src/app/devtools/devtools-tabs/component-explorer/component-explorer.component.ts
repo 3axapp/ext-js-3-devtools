@@ -12,10 +12,10 @@ import {
   ElementPath,
   Events,
   PropType,
-} from '../protocols/messages';
+} from '../../../protocols/messages';
 import {PropertiesComponent} from './properties/properties.component';
 import {IndexedNode} from './component-forest/models/index-forest';
-import {PortBus} from '../protocols/port-bus';
+import {PortBus} from '../../../protocols/port-bus';
 
 
 @Component({

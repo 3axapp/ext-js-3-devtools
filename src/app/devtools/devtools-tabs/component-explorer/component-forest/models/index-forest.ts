@@ -1,4 +1,4 @@
-import {DevToolsNode, ElementPath} from '../../../protocols/messages';
+import {DevToolsNode, ElementPath} from '../../../../../protocols/messages';
 
 export const indexForest = (forest: DevToolsNode[]) => forest.map((node, position) => index(node, position));
 
