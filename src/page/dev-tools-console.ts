@@ -1,5 +1,4 @@
 export class DevToolsConsole {
-
   private readonly prefix = '$ext';
   private readonly capacity = 5;
 
@@ -14,7 +13,6 @@ export class DevToolsConsole {
     this.assign();
   }
 
-
   private before(component: Ext.Component) {
     const foundIndex = this.list.indexOf(component);
     if (foundIndex !== -1) {
@@ -22,7 +20,7 @@ export class DevToolsConsole {
     } else if (this.list.length === this.capacity) {
       this.list.pop();
     }
-  };
+  }
 
   private insert(component: Ext.Component) {
     this.list.unshift(component);
@@ -37,6 +35,5 @@ export class DevToolsConsole {
         configurable: true,
       });
     });
-  };
-
+  }
 }

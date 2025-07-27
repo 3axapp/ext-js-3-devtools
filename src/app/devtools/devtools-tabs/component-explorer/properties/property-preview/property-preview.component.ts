@@ -7,7 +7,7 @@ import {PropType} from '../../../../../protocols/messages';
   imports: [],
   templateUrl: './property-preview.component.html',
   standalone: true,
-  styleUrl: './property-preview.component.scss'
+  styleUrl: './property-preview.component.scss',
 })
 export class PropertyPreviewComponent {
   readonly node = input.required<FlatNode>();
@@ -27,5 +27,4 @@ export class PropertyPreviewComponent {
     const node = this.node();
     return node.prop.descriptor.type === PropType.Component;
   });
-
 }

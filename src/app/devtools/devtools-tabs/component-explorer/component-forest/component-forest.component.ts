@@ -55,8 +55,8 @@ export class ComponentForestComponent {
 
   // private readonly updateForestResult = computed(() => this._updateForest(this.forest()));
   public readonly treeControl = new FlatTreeControl<FlatNode>(
-    (node) => node!.level,
-    (node) => node.expandable,
+    node => node!.level,
+    node => node.expandable,
   );
   public readonly dataSource = new ComponentDataSource(this.treeControl);
   private readonly viewport = viewChild.required<CdkVirtualScrollViewport>(CdkVirtualScrollViewport);
@@ -103,11 +103,11 @@ export class ComponentForestComponent {
   }
 
   private subscribeToInspectorEvents() {
-    this._messageBus.on('selectComponent', (id) => {
+    this._messageBus.on('selectComponent', id => {
       this.selectNodeByComponentId(id);
     });
 
-    this._messageBus.on('highlightComponent', (id) => {
+    this._messageBus.on('highlightComponent', id => {
       this.highlightIDinTreeFromElement.set(id);
     });
 
@@ -126,7 +126,6 @@ export class ComponentForestComponent {
   }
 
   private _updateForest(forest: DevToolsNode[]): UpdateResult {
-
     const result = this.dataSource.update(forest);
 
     if (!this._initialized && forest.length) {
@@ -136,7 +135,7 @@ export class ComponentForestComponent {
       // result.newItems.forEach((item) => (item.newItem = false));
     }
 
-    result.newItems.forEach((item) => this.treeControl.expand(item));
+    result.newItems.forEach(item => this.treeControl.expand(item));
 
     return result;
   }
@@ -164,7 +163,7 @@ export class ComponentForestComponent {
       this.treeControl.expand(nodeToSelect);
       this.selectAndEnsureVisible(nodeToSelect);
     }
-    const nodeIsVisible = this.dataSource.expandedDataValues.find((node) => node === nodeToSelect);
+    const nodeIsVisible = this.dataSource.expandedDataValues.find(node => node === nodeToSelect);
     if (!nodeIsVisible) {
       this.expandParents();
     }
@@ -173,22 +172,21 @@ export class ComponentForestComponent {
   public prevMatched(): void {
     const indexesOfMatchedNodes = this._findMatchedNodes();
     this.currentlyMatchedIndex =
-      (this.currentlyMatchedIndex - 1 + indexesOfMatchedNodes.length) %
-      indexesOfMatchedNodes.length;
+      (this.currentlyMatchedIndex - 1 + indexesOfMatchedNodes.length) % indexesOfMatchedNodes.length;
     const indexToSelect = indexesOfMatchedNodes[this.currentlyMatchedIndex];
     const nodeToSelect = this.dataSource.data[indexToSelect];
     if (indexToSelect !== undefined) {
       this.treeControl.expand(nodeToSelect);
       this.selectAndEnsureVisible(nodeToSelect);
     }
-    const nodeIsVisible = this.dataSource.expandedDataValues.find((node) => node === nodeToSelect);
+    const nodeIsVisible = this.dataSource.expandedDataValues.find(node => node === nodeToSelect);
     if (!nodeIsVisible) {
       this.expandParents();
     }
   }
 
   private expandParents(): void {
-    this.parents.forEach((parent) => this.treeControl.expand(parent));
+    this.parents.forEach(parent => this.treeControl.expand(parent));
   }
 
   public handleFilter(filterText: string): void {
@@ -221,7 +219,7 @@ export class ComponentForestComponent {
     // That's the bottom most point we currently see an element.
     const parentHeight = scrollParent.offsetHeight;
     const bottom = top + parentHeight;
-    const idx = this.dataSource.expandedDataValues.findIndex((el) => el.id === node.id);
+    const idx = this.dataSource.expandedDataValues.findIndex(el => el.id === node.id);
     // The node might be hidden.
     if (idx < 0) {
       return;
@@ -244,9 +242,7 @@ export class ComponentForestComponent {
     this.parents = [];
     for (let i = 1; i <= path.length; i++) {
       const current = path.slice(0, i);
-      const selectedNode = this.dataSource.data.find(
-        (item) => item.path.toString() === current.toString(),
-      );
+      const selectedNode = this.dataSource.data.find(item => item.path.toString() === current.toString());
 
       // We might not be able to find the parent if the user has hidden the comment nodes.
       if (selectedNode) {
@@ -270,9 +266,7 @@ export class ComponentForestComponent {
   }
 
   public handleSelect(node: FlatNode): void {
-    this.currentlyMatchedIndex = this.dataSource.data.findIndex(
-      (matchedNode) => matchedNode.id === node.id,
-    );
+    this.currentlyMatchedIndex = this.dataSource.data.findIndex(matchedNode => matchedNode.id === node.id);
     this.selectAndEnsureVisible(node);
   }
 
@@ -293,6 +287,6 @@ export class ComponentForestComponent {
   }
 
   private findComponent(id: string) {
-    return this.dataSource.data.find((node) => node.id === id);
+    return this.dataSource.data.find(node => node.id === id);
   }
 }

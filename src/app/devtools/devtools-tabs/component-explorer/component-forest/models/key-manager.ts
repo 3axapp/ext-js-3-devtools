@@ -8,8 +8,7 @@ export class KeyManager {
   public constructor(
     private treeControl: FlatTreeControl<FlatNode, FlatNode>,
     private dataSource: ComponentDataSource,
-  ) {
-  }
+  ) {}
 
   public onKeyDown(selectedNode: FlatNode | null, $event: KeyboardEvent): FlatNode | null {
     this.selectedNode = selectedNode;
@@ -70,7 +69,7 @@ export class KeyManager {
   }
 
   private preventDefault($event: KeyboardEvent) {
-    if (["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes($event.code)) {
+    if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes($event.code)) {
       $event.preventDefault();
     }
   }

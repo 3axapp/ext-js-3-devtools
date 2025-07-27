@@ -3,8 +3,8 @@ import {DevToolsNode, ElementPath} from '../../../../../protocols/messages';
 export const indexForest = (forest: DevToolsNode[]) => forest.map((node, position) => index(node, position));
 
 export interface IndexedNode extends DevToolsNode {
-  path: ElementPath,
-  children: IndexedNode[],
+  path: ElementPath;
+  children: IndexedNode[];
 }
 
 function index(node: DevToolsNode, position: number, parents: ElementPath = []): IndexedNode {
@@ -20,4 +20,3 @@ function index(node: DevToolsNode, position: number, parents: ElementPath = []):
     children: node.children.map((node, position) => index(node, position, path)),
   };
 }
-

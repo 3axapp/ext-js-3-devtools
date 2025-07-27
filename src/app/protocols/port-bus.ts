@@ -2,12 +2,10 @@
 import Port = chrome.runtime.Port;
 import {Parameters} from './messages';
 
-export class PortBus<T extends Record<string, (...args: any[]) => void>>{
+export class PortBus<T extends Record<string, (...args: any[]) => void>> {
   private listeners: Partial<T> = {};
-  constructor(
-    private port: Port,
-  ) {
-    this.port.onMessage.addListener((e: {topic: keyof T, args: any[]}) => {
+  constructor(private port: Port) {
+    this.port.onMessage.addListener((e: {topic: keyof T; args: any[]}) => {
       if (this.listeners[e.topic]) {
         this.listeners[e.topic]!(...e.args);
       }

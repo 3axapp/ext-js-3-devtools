@@ -3,7 +3,7 @@
     <div class="element-name">
       <div class="component-name">
         <a
-          href="{{documentation()}}"
+          href="{{ documentation() }}"
           target="_blank"
           class="documentation"
           matTooltip="Открыть документацию на sencha.com"
@@ -18,14 +18,12 @@
   <div class="component-properties">
     <mat-expansion-panel [expanded]="false">
       <mat-expansion-panel-header collapsedHeight="25px" expandedHeight="25px">
-        <mat-panel-title>
-          Родительские классы
-        </mat-panel-title>
+        <mat-panel-title> Родительские классы </mat-panel-title>
       </mat-expansion-panel-header>
       @for (type of properties().parentClasses; track $index) {
         <div class="parent-class">
           <a
-            href="{{documentationUrl + type}}"
+            href="{{ documentationUrl + type }}"
             target="_blank"
             class="documentation"
             matTooltip="Открыть документацию на sencha.com"

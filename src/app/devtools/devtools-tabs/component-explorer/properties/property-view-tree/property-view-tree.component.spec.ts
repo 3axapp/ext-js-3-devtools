@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PropertyViewTreeComponent } from './property-view-tree.component';
+import {PropertyViewTreeComponent} from './property-view-tree.component';
 
 describe('PropertyViewTreeComponent', () => {
   let component: PropertyViewTreeComponent;
@@ -8,9 +8,8 @@ describe('PropertyViewTreeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PropertyViewTreeComponent]
-    })
-    .compileComponents();
+      imports: [PropertyViewTreeComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PropertyViewTreeComponent);
     component = fixture.componentInstance;

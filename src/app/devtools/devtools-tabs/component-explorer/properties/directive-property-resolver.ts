@@ -12,7 +12,7 @@ export interface DirectiveTreeData {
 
 const getDirectiveControls = (
   dataSource: PropertyDataSource,
-): { dataSource: PropertyDataSource; treeControl: FlatTreeControl<FlatNode> } => {
+): {dataSource: PropertyDataSource; treeControl: FlatTreeControl<FlatNode>} => {
   const treeControl = dataSource.treeControl;
   return {
     dataSource,
@@ -20,10 +20,7 @@ const getDirectiveControls = (
   };
 };
 
-export const constructPathOfKeysToPropertyValue = (
-  nodePropToGetKeysFor: Property,
-  keys: string[] = [],
-): string[] => {
+export const constructPathOfKeysToPropertyValue = (nodePropToGetKeysFor: Property, keys: string[] = []): string[] => {
   keys.unshift(nodePropToGetKeysFor.name);
   const parentNodeProp = nodePropToGetKeysFor.parent;
   if (parentNodeProp) {
@@ -36,8 +33,8 @@ export class DirectivePropertyResolver {
   private _treeFlattener = getTreeFlattener();
 
   private _treeControl = new FlatTreeControl<FlatNode>(
-    (node) => node.level,
-    (node) => node.expandable,
+    node => node.level,
+    node => node.expandable,
   );
 
   private _stateDataSource: PropertyDataSource;
@@ -76,7 +73,7 @@ export class DirectivePropertyResolver {
     return this._directivePosition;
   }
 
-  private _createDataSourceFromProps(props: { [name: string]: Descriptor }, parents?: string[]): PropertyDataSource {
+  private _createDataSourceFromProps(props: Record<string, Descriptor>, parents?: string[]): PropertyDataSource {
     return new PropertyDataSource(
       props,
       parents,
@@ -87,8 +84,10 @@ export class DirectivePropertyResolver {
     );
   }
 
-  private _classifyProperties(): Record<'stateProps'|'initialConfigProps'|'listenersProps', { [name: string]: Descriptor }> {
-
+  private _classifyProperties(): Record<
+    'stateProps' | 'initialConfigProps' | 'listenersProps',
+    Record<string, Descriptor>
+  > {
     const stateProps = this.directiveProperties.properties.props;
     const initialConfigProps = this.directiveProperties.initialConfig.props;
     const listenersProps = this.directiveProperties.listeners.props;

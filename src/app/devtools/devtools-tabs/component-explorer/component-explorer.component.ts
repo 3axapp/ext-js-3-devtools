@@ -17,16 +17,9 @@ import {PropertiesComponent} from './properties/properties.component';
 import {IndexedNode} from './component-forest/models/index-forest';
 import {PortBus} from '../../../protocols/port-bus';
 
-
 @Component({
   selector: 'app-component-explorer',
-  imports: [
-    SplitComponent,
-    SplitAreaComponent,
-    BreadcrumbsComponent,
-    ComponentForestComponent,
-    PropertiesComponent
-],
+  imports: [SplitComponent, SplitAreaComponent, BreadcrumbsComponent, ComponentForestComponent, PropertiesComponent],
   templateUrl: './component-explorer.component.html',
   standalone: true,
   styleUrl: './component-explorer.component.scss',
@@ -103,14 +96,14 @@ export class ComponentExplorerComponent {
     };
   }
 
-  inspect($event: { node: PropertyFlatNode; componentPath: ElementPath, parents?: string[] }) {
+  inspect($event: {node: PropertyFlatNode; componentPath: ElementPath; parents?: string[]}) {
     if ($event.node.prop?.descriptor.type == PropType.Component) {
       this.componentForest()?.selectNodeByComponentId($event.node.prop.descriptor.value);
       return;
     }
 
     let t: DevToolsNode = {children: this.forest()} as any;
-    for (let i of $event.componentPath) {
+    for (const i of $event.componentPath) {
       t = t.children[i];
     }
     const propertyPath: string[] = [];
@@ -120,13 +113,13 @@ export class ComponentExplorerComponent {
       node = node.parent;
     }
     const strPath = this.preparePropertyPathForInspect($event.parents, propertyPath)
-      .map(i => String(+i) === String(i) ? `[${i}]` : `.${i}`)
+      .map(i => (String(+i) === String(i) ? `[${i}]` : `.${i}`))
       .join('');
     const script = `inspect(Ext.getCmp("${t.id}")${strPath})`;
     chrome.devtools.inspectedWindow.eval(script);
   }
 
-  highlightPropertyComponent($event: { node: PropertyFlatNode; componentPath: ElementPath, parents?: string[] }) {
+  highlightPropertyComponent($event: {node: PropertyFlatNode; componentPath: ElementPath; parents?: string[]}) {
     if ($event.node.prop?.descriptor.type != PropType.Component) {
       return;
     }

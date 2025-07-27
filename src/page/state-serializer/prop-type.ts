@@ -9,7 +9,6 @@ const commonTypes = {
   symbol: PropType.Symbol,
 };
 
-
 export const getPropType = (prop: unknown): PropType => {
   if (prop === undefined) {
     return PropType.Undefined;

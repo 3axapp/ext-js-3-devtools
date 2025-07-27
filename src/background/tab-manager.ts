@@ -3,12 +3,10 @@ import Port = chrome.runtime.Port;
 import {Events, Topic} from '../app/protocols/messages';
 
 export class TabManager {
-
   public constructor(
     private runtime: typeof chrome.runtime,
     private tabs: Record<string, DevToolsConnection> = {},
-  ) {
-  }
+  ) {}
 
   public initialize(): void {
     this.runtime.onConnect.addListener((port: Port): void => {
@@ -17,10 +15,7 @@ export class TabManager {
         return;
       }
 
-      if (
-        port?.sender?.tab?.id === undefined ||
-        port.sender.frameId === undefined
-      ) {
+      if (port?.sender?.tab?.id === undefined || port.sender.frameId === undefined) {
         console.warn('Это ж-ж-ж неспроста', port);
         return;
       }
@@ -28,7 +23,6 @@ export class TabManager {
       this.registerContentScriptForTab(port);
     });
   }
-
 
   private registerDevToolsForTab(port: chrome.runtime.Port): void {
     // For the devtools page, our port name is the tab id.
@@ -48,9 +42,7 @@ export class TabManager {
     for (const [frameId, connection] of Object.entries(tab.contentScripts)) {
       connection.backendReady!.then(() => {
         if (connection.port === null) {
-          throw new Error(
-            'Expected Content to have already connected before the backendReady event on the same page.',
-          );
+          throw new Error('Expected Content to have already connected before the backendReady event on the same page.');
         }
         this.doublePipe(tab.devtools, connection);
         tab.devtools!.postMessage({
@@ -89,8 +81,8 @@ export class TabManager {
       }
     });
 
-    contentScript.backendReady = new Promise((resolveBackendReady) => {
-      const onBackendReady = (message: { topic: string }) => {
+    contentScript.backendReady = new Promise(resolveBackendReady => {
+      const onBackendReady = (message: {topic: string}) => {
         if (message.topic === 'backendReady') {
           resolveBackendReady();
 
@@ -126,10 +118,7 @@ export class TabManager {
     };
   }
 
-  private doublePipe(
-    devtoolsPort: chrome.runtime.Port | null,
-    contentScriptConnection: ContentScriptConnection,
-  ): void {
+  private doublePipe(devtoolsPort: chrome.runtime.Port | null, contentScriptConnection: ContentScriptConnection): void {
     if (devtoolsPort === null) {
       throw new Error('DevTools port is equal to null');
     }
@@ -142,7 +131,7 @@ export class TabManager {
 
     console.log('Creating two-way communication channel', Date.now(), this.tabs);
 
-    const onDevToolsMessage = (message: { topic: Topic; args: Parameters<Events[Topic]> }) => {
+    const onDevToolsMessage = (message: {topic: Topic; args: Parameters<Events[Topic]>}) => {
       if (message.topic === 'enableFrameConnection') {
         if (message.args.length !== 2) {
           throw new Error('Expected two arguments for enableFrameConnection');
@@ -177,7 +166,7 @@ export class TabManager {
     };
     devtoolsPort.onMessage.addListener(onDevToolsMessage);
 
-    const onContentScriptMessage = (message: { topic: Topic; args: Parameters<Events[Topic]> }) => {
+    const onContentScriptMessage = (message: {topic: Topic; args: Parameters<Events[Topic]>}) => {
       if (!contentScriptConnection.enabled) {
         return;
       }
@@ -200,8 +189,8 @@ export class TabManager {
 }
 
 interface DevToolsConnection {
-  devtools: Port | null,
-  contentScripts: Record<string, ContentScriptConnection>,
+  devtools: Port | null;
+  contentScripts: Record<string, ContentScriptConnection>;
 }
 
 export interface ContentScriptConnection {

@@ -3,7 +3,7 @@ export const environment = {};
 const component: Ext.Component = {
   initialConfig: {
     cls: 'super-class',
-    width: 'auto'
+    width: 'auto',
   },
 } as any;
 //
@@ -42,4 +42,3 @@ const component: Ext.Component = {
 // bus.once('queryExtJSAvailability', () => {
 //   bus.emit('extJSAvailability', [{exists: true}]);
 // });
-

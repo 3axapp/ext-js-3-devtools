@@ -26,12 +26,10 @@ const DETECT_ATTEMPTS = 5;
 
 @Component({
   selector: 'app-devtools',
-  imports: [
-    DevtoolsTabsComponent
-  ],
+  imports: [DevtoolsTabsComponent],
   templateUrl: './devtools.component.html',
   standalone: true,
-  styleUrl: './devtools.component.scss'
+  styleUrl: './devtools.component.scss',
 })
 export class DevtoolsComponent implements OnInit, OnDestroy {
   readonly ExtJSStatuses = ExtJSStatuses;

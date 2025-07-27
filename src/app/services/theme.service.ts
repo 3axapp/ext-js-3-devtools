@@ -7,10 +7,10 @@ export type Theme = 'dark-theme' | 'light-theme';
 declare const browser: {
   storage: {
     local: {
-      get: () => Promise<Record<string, unknown> | void>,
-      set: ( data: Record<string, unknown>) => Promise<void>,
-    }
-  }
+      get: () => Promise<Record<string, unknown> | void>;
+      set: (data: Record<string, unknown>) => Promise<void>;
+    };
+  };
 };
 
 @Injectable({
@@ -21,7 +21,7 @@ export class ThemeService {
   private doc = document;
   readonly currentTheme = signal<Theme>(DARK_THEME_CLASS);
 
-  public async initialize(){
+  public async initialize() {
     this.set(await this.getPrefersDarkMode());
   }
 
@@ -44,7 +44,6 @@ export class ThemeService {
     this.doc.body.className = addClass;
     this.currentTheme.set(addClass);
 
-    browser.storage.local.set( {isDark});
+    browser.storage.local.set({isDark});
   }
-
 }

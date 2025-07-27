@@ -30,8 +30,8 @@ export class PropertiesComponent {
   properties = input.required<ComponentProperties>();
   messageBus = inject(PortBus);
 
-  readonly inspect = output<{ node: FlatNode; componentPath: ElementPath, parents?: string[] }>();
-  readonly highlight = output<{ node: FlatNode; componentPath: ElementPath, parents?: string[] }>();
+  readonly inspect = output<{node: FlatNode; componentPath: ElementPath; parents?: string[]}>();
+  readonly highlight = output<{node: FlatNode; componentPath: ElementPath; parents?: string[]}>();
   readonly removeHighlight = output<void>();
 
   readonly documentationUrl = 'https://docs.sencha.com/extjs/3.4.0/#!/api/';
@@ -91,7 +91,7 @@ type Panels = {
   controls: DirectiveTreeData;
   documentation?: string;
   class: string;
-  parents?: string[],
+  parents?: string[];
 }[];
 
 export interface DirectiveTreeData {

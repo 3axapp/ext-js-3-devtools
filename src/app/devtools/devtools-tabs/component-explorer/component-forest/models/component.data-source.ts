@@ -9,7 +9,6 @@ import {diff} from './diffing';
 import {DefaultIterableDiffer, TrackByFunction} from '@angular/core';
 
 export class ComponentDataSource extends DataSource<FlatNode> {
-
   private _differ = new DefaultIterableDiffer<FlatNode>(trackBy);
   private _expandedData = new BehaviorSubject<FlatNode[]>([]);
   private _flattenedData = new BehaviorSubject<FlatNode[]>([]);
@@ -31,9 +30,9 @@ export class ComponentDataSource extends DataSource<FlatNode> {
       this._nodeToFlat.set(node, flatNode);
       return flatNode;
     },
-    (node) => (node ? node.level : -1),
-    (node) => (node ? node.expandable : false),
-    (node) => (node ? node.children : []),
+    node => (node ? node.level : -1),
+    node => (node ? node.expandable : false),
+    node => (node ? node.children : []),
   );
 
   constructor(private _treeControl: FlatTreeControl<FlatNode>) {
@@ -58,39 +57,31 @@ export class ComponentDataSource extends DataSource<FlatNode> {
     }
 
     const flattenedCollection = this._treeFlattener.flattenNodes(indexForest(forest)) as FlatNode[];
-    this.data.forEach((i) => (i.newItem = false));
+    this.data.forEach(i => (i.newItem = false));
 
     const expandedNodes: Record<string, boolean> = {};
-    this.data.forEach((item) => {
+    this.data.forEach(item => {
       expandedNodes[item.id] = this._treeControl.isExpanded(item);
     });
 
-    const {newItems, movedItems, removedItems} = diff<FlatNode>(
-      this._differ,
-      this.data,
-      flattenedCollection,
-    );
+    const {newItems, movedItems, removedItems} = diff<FlatNode>(this._differ, this.data, flattenedCollection);
     this._treeControl.dataNodes = this.data;
     this._flattenedData.next(this.data);
 
-    movedItems.forEach((i) => {
+    movedItems.forEach(i => {
       this._nodeToFlat.set(i.original, i);
       if (expandedNodes[i.id]) {
         this._treeControl.expand(i);
       }
     });
-    newItems.forEach((i) => (i.newItem = true));
-    removedItems.forEach((i) => this._nodeToFlat.delete(i.original));
+    newItems.forEach(i => (i.newItem = true));
+    removedItems.forEach(i => this._nodeToFlat.delete(i.original));
 
     return {newItems, movedItems, removedItems};
   }
 
   connect(collectionViewer: CollectionViewer): Observable<FlatNode[]> {
-    const changes = [
-      collectionViewer.viewChange,
-      this._treeControl.expansionModel.changed,
-      this._flattenedData,
-    ];
+    const changes = [collectionViewer.viewChange, this._treeControl.expansionModel.changed, this._flattenedData];
     return merge<unknown[]>(...changes).pipe(
       map(() => {
         this._expandedData.next(
@@ -104,15 +95,13 @@ export class ComponentDataSource extends DataSource<FlatNode> {
     );
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {
-  }
-
+  disconnect(collectionViewer: CollectionViewer): void {}
 }
 
 export interface UpdateResult {
-  newItems: FlatNode[],
-  movedItems: FlatNode[],
-  removedItems: FlatNode[],
+  newItems: FlatNode[];
+  movedItems: FlatNode[];
+  removedItems: FlatNode[];
 }
 
 const expandable = (node: IndexedNode) => node.children.length > 0;

@@ -11,7 +11,6 @@ import {Observable} from 'rxjs';
 import {arrayifyProps, FlatNode, Property} from './properties';
 import {Descriptor, PropType} from '../../../../protocols/messages';
 
-
 export const getTreeFlattener = () =>
   new MatTreeFlattener(
     (node: Property, level: number): FlatNode => {
@@ -21,9 +20,9 @@ export const getTreeFlattener = () =>
         level,
       };
     },
-    (node) => node.level,
-    (node) => node.expandable,
-    (node) => getChildren(node),
+    node => node.level,
+    node => node.expandable,
+    node => getChildren(node),
   );
 
 export const expandable = (prop: Descriptor) => {

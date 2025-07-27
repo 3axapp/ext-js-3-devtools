@@ -8,11 +8,7 @@ import {ThemeService} from '../../services/theme.service';
 
 @Component({
   selector: 'app-devtools-tabs',
-  imports: [
-    MatIcon,
-    MatTooltip,
-    ComponentExplorerComponent,
-  ],
+  imports: [MatIcon, MatTooltip, ComponentExplorerComponent],
   templateUrl: './devtools-tabs.component.html',
   standalone: true,
   styleUrl: './devtools-tabs.component.scss',
@@ -28,7 +24,7 @@ export class DevtoolsTabsComponent {
   }
 
   toggleInspectorState(): void {
-    this.inspectorRunning.update((state) => !state);
+    this.inspectorRunning.update(state => !state);
   }
 
   emitInspectorEvent(): void {

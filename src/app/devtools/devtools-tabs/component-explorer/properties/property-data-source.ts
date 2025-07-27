@@ -15,7 +15,7 @@ export class PropertyDataSource extends DataSource<FlatNode> {
   private _differ = new DefaultIterableDiffer<FlatNode>(trackBy);
 
   constructor(
-    props: { [prop: string]: Descriptor },
+    props: Record<string, Descriptor>,
     private _parents: string[] | void,
     private _treeFlattener: MatTreeFlattener<Property, FlatNode>,
     private _treeControl: FlatTreeControl<FlatNode>,
@@ -34,7 +34,7 @@ export class PropertyDataSource extends DataSource<FlatNode> {
     return this._treeControl;
   }
 
-  update(props: { [prop: string]: Descriptor }): void {
+  update(props: Record<string, Descriptor>): void {
     const newData = this._treeFlattener.flattenNodes(arrayifyProps(props));
     diff(this._differ, this.data, newData);
     this._data.next(this.data);
@@ -47,32 +47,26 @@ export class PropertyDataSource extends DataSource<FlatNode> {
     }
     const s = changed.subscribe((change: SelectionChange<FlatNode>) => {
       if (change.added) {
-        change.added.forEach((node) => this._toggleNode(node, true));
+        change.added.forEach(node => this._toggleNode(node, true));
       }
       if (change.removed) {
-        change.removed.reverse().forEach((node) => this._toggleNode(node, false));
+        change.removed.reverse().forEach(node => this._toggleNode(node, false));
       }
     });
     this._subscriptions.push(s);
 
-    const changes = [
-      collectionViewer.viewChange,
-      this._treeControl.expansionModel.changed,
-      this._data,
-    ];
+    const changes = [collectionViewer.viewChange, this._treeControl.expansionModel.changed, this._data];
 
     return merge<unknown[]>(...changes).pipe(
       map(() => {
-        this._expandedData.next(
-          this._treeFlattener.expandFlattenedNodes(this.data, this._treeControl),
-        );
+        this._expandedData.next(this._treeFlattener.expandFlattenedNodes(this.data, this._treeControl));
         return this._expandedData.value;
       }),
     );
   }
 
   override disconnect(): void {
-    this._subscriptions.forEach((s) => s.unsubscribe());
+    this._subscriptions.forEach(s => s.unsubscribe());
     this._subscriptions = [];
   }
 
@@ -101,21 +95,17 @@ export class PropertyDataSource extends DataSource<FlatNode> {
 
     this._messageBus.emit('getNestedProperties', this._entityPosition, parentPath);
 
-    this._messageBus.on(
-      'nestedProperties',
-      (position: DirectivePosition, data: Properties, _path: string[]) => {
-        node.prop.descriptor.value = data.props;
-        this._treeControl.expand(node);
-        const props = arrayifyProps(data.props, node.prop);
-        const flatNodes = this._treeFlattener.flattenNodes(props);
-        flatNodes.forEach((f) => (f.level += node.level + 1));
-        this.data.splice(index + 1, 0, ...flatNodes);
-        this._data.next(this.data);
-      },
-    );
+    this._messageBus.on('nestedProperties', (position: DirectivePosition, data: Properties, _path: string[]) => {
+      node.prop.descriptor.value = data.props;
+      this._treeControl.expand(node);
+      const props = arrayifyProps(data.props, node.prop);
+      const flatNodes = this._treeFlattener.flattenNodes(props);
+      flatNodes.forEach(f => (f.level += node.level + 1));
+      this.data.splice(index + 1, 0, ...flatNodes);
+      this._data.next(this.data);
+    });
   }
 }
 
 const trackBy: TrackByFunction<FlatNode> = (_: number, item: FlatNode) =>
   `#${item.prop.name}#${item.prop.descriptor.preview}#${item.level}`;
-

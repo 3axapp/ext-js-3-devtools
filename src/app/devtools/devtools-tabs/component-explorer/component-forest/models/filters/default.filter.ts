@@ -19,5 +19,4 @@ export class DefaultFilter implements Filter {
   protected getTestValue(node: FlatNode): string {
     return node.name;
   }
-
 }

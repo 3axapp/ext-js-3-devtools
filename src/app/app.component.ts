@@ -18,7 +18,7 @@ import {DevtoolsComponent} from './devtools/devtools.component';
 
         return new PortBus(port);
       },
-    }
+    },
   ],
 })
 export class AppComponent implements OnInit {
@@ -29,5 +29,4 @@ export class AppComponent implements OnInit {
       window.location.reload();
     });
   }
-
 }

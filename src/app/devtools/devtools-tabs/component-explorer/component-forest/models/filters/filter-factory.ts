@@ -11,7 +11,7 @@ export const filterFactory = (filterText: string): Filter => {
 
   filterText = filterText.toLowerCase() || '.^';
 
-  for (let [t, type] of test) {
+  for (const [t, type] of test) {
     if (t == filterText.substring(0, t.length)) {
       return new type(filterText.substring(t.length));
     }

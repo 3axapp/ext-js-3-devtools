@@ -8,17 +8,10 @@ import {PropertyPreviewComponent} from '../property-preview/property-preview.com
 
 @Component({
   selector: 'app-property-view-tree',
-  imports: [
-    MatTree,
-    MatTreeNode,
-    MatIcon,
-    MatTreeNodePadding,
-    MatTreeNodeDef,
-    PropertyPreviewComponent
-  ],
+  imports: [MatTree, MatTreeNode, MatIcon, MatTreeNodePadding, MatTreeNodeDef, PropertyPreviewComponent],
   templateUrl: './property-view-tree.component.html',
   standalone: true,
-  styleUrl: './property-view-tree.component.scss'
+  styleUrl: './property-view-tree.component.scss',
 })
 export class PropertyViewTreeComponent {
   readonly dataSource = input.required<PropertyDataSource>();

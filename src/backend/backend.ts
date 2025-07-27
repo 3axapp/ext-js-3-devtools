@@ -19,7 +19,7 @@ const events: Topic[] = [
   'removeComponentHighlight',
 ];
 
-for (let event of events) {
+for (const event of events) {
   windowBus.on(event, (...args: any[]) => {
     if (backgroundDisconnected) {
       return;
@@ -29,18 +29,16 @@ for (let event of events) {
 }
 
 port.onDisconnect.addListener(() => {
-  console.log('port disconnect')
+  console.log('port disconnect');
   backgroundDisconnected = true;
   windowBus.emit('shutdown');
   windowBus.destroy();
 });
 
-port.onMessage.addListener((m) => {
+port.onMessage.addListener(m => {
   windowBus.emit(m.topic, ...m.args);
 });
 
-
-const s = document.createElement("script");
-s.src = chrome.runtime.getURL("/page.js");
+const s = document.createElement('script');
+s.src = chrome.runtime.getURL('/page.js');
 (document.head || document.documentElement).appendChild(s);
-

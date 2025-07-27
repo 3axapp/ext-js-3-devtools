@@ -3,4 +3,5 @@
   (click)="isClickableProp() && inspect.emit()"
   (mouseenter)="isHighlightable() && highlight.emit()"
   (mouseleave)="isHighlightable() && removeHighlight.emit()"
->{{node().prop.descriptor.preview}}</span>
+  >{{ node().prop.descriptor.preview }}</span
+>

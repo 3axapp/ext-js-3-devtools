@@ -1,31 +1,31 @@
 import {ParentClasses} from '../../page/dom-manager';
 
 export interface DevToolsNode {
-  id: string,
-  type: string,
-  ctype: string,
-  xtype?: string,
-  name?: string,
-  modal: boolean,
-  children: DevToolsNode[],
+  id: string;
+  type: string;
+  ctype: string;
+  xtype?: string;
+  name?: string;
+  modal: boolean;
+  children: DevToolsNode[];
 }
 
 export type ElementPath = number[];
 
 export interface ComponentExplorerViewQuery {
-  selectedElement: ElementPath,
+  selectedElement: ElementPath;
 }
 
 export interface ComponentExplorerView {
-  forest: DevToolsNode[],
-  properties?: ComponentProperties,
+  forest: DevToolsNode[];
+  properties?: ComponentProperties;
 }
 
 export interface ComponentProperties {
-  properties: Properties,
-  initialConfig: Properties,
-  listeners: Properties,
-  parentClasses: ParentClasses,
+  properties: Properties;
+  initialConfig: Properties;
+  listeners: Properties;
+  parentClasses: ParentClasses;
 }
 
 export interface Events extends Record<string, any> {
@@ -37,7 +37,7 @@ export interface Events extends Record<string, any> {
   shutdown: () => void;
 
   queryExtJSAvailability: () => void;
-  extJSAvailability: (result: { exists: boolean }) => void;
+  extJSAvailability: (result: {exists: boolean}) => void;
 
   inspectorStart: () => void;
   inspectorEnd: () => void;
@@ -55,15 +55,14 @@ export interface Events extends Record<string, any> {
 
   getNestedProperties: (position: DirectivePosition, path: string[]) => void;
   nestedProperties: (position: DirectivePosition, data: Properties, path: string[]) => void;
-
 }
 
 export type Topic = keyof Events;
 
 export interface Message<T, E extends keyof T = keyof T> {
-  topic: E,
-  source: string,
-  args: Parameters<T[E]>
+  topic: E;
+  source: string;
+  args: Parameters<T[E]>;
 }
 
 export type Parameters<F> = F extends (...args: infer T) => any ? T : never;
@@ -89,7 +88,7 @@ export enum PropType {
 }
 
 export interface Properties {
-  props: { [name: string]: Descriptor };
+  props: Record<string, Descriptor>;
 }
 
 export interface Descriptor {

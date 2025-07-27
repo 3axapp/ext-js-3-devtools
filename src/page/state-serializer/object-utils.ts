@@ -12,7 +12,7 @@ export function getKeys(obj: {}): string[] {
   const prototypeMembers = Object.getOwnPropertyDescriptors(Object.getPrototypeOf(obj) ?? {});
 
   const ignoreList = ['__proto__'];
-  const gettersAndSetters = Object.keys(prototypeMembers).filter((methodName) => {
+  const gettersAndSetters = Object.keys(prototypeMembers).filter(methodName => {
     if (ignoreList.includes(methodName)) {
       return false;
     }

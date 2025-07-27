@@ -1,15 +1,14 @@
 import {findComponentAndHost, highlightSelectedElement, unHighlight} from './highlighter';
 import {ComponentNode} from '../forest';
 
-
-type Events = {
-  componentEnter: (component: ComponentNode) => void,
-  componentSelect: (component: ComponentNode) => void,
-  componentLeave: () => void,
-};
+interface Events {
+  componentEnter: (component: ComponentNode) => void;
+  componentSelect: (component: ComponentNode) => void;
+  componentLeave: () => void;
+}
 
 export class ComponentInspector {
-  private _selectedComponent!: { component: ComponentNode; host: HTMLElement | null };
+  private _selectedComponent!: {component: ComponentNode; host: HTMLElement | null};
   private listeners: Events = {
     componentEnter: (component: ComponentNode) => void 0,
     componentSelect: (component: ComponentNode) => void 0,

@@ -6,15 +6,10 @@ import {MatTooltip} from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-filter',
-  imports: [
-    MatCard,
-    MatIcon,
-    MatInput,
-    MatTooltip
-  ],
+  imports: [MatCard, MatIcon, MatInput, MatTooltip],
   templateUrl: './filter.component.html',
   standalone: true,
-  styleUrl: './filter.component.scss'
+  styleUrl: './filter.component.scss',
 })
 export class FilterComponent {
   public readonly filter = output<string>();

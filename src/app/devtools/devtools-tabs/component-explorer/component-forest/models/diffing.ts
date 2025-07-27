@@ -27,7 +27,7 @@ export const diff = <T>(
   // We first have to set the moved items to their correct positions.
   // Keep in mind that the track by function may not guarantee
   // that we haven't changed any of the items' props.
-  differ.forEachMovedItem((record) => {
+  differ.forEachMovedItem(record => {
     if (record.currentIndex === null) {
       return;
     }
@@ -47,7 +47,7 @@ export const diff = <T>(
     } else {
       a[record.currentIndex] = {} as unknown as T;
     }
-    Object.keys(b[record.currentIndex] as unknown as {}).forEach((prop) => {
+    Object.keys(b[record.currentIndex] as unknown as {}).forEach(prop => {
       // TypeScript's type inference didn't follow the check from above.
       if (record.currentIndex === null) {
         return;
@@ -64,7 +64,7 @@ export const diff = <T>(
   // Now we can set the new items and remove the deleted ones.
   const newItems: T[] = [];
   const removedItems: T[] = [];
-  differ.forEachAddedItem((record) => {
+  differ.forEachAddedItem(record => {
     if (record.currentIndex !== null && record.previousIndex === null) {
       a[record.currentIndex] = record.item;
       alreadySet[record.currentIndex] = true;
@@ -72,7 +72,7 @@ export const diff = <T>(
     }
   });
 
-  differ.forEachRemovedItem((record) => {
+  differ.forEachRemovedItem(record => {
     if (record.previousIndex === null) {
       return;
     }

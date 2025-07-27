@@ -13,7 +13,7 @@ export interface Property {
 }
 
 export const arrayifyProps = (
-  props: {[prop: string]: Descriptor} | Descriptor[],
+  props: Record<string, Descriptor> | Descriptor[],
   parent: Property | null = null,
 ): Property[] =>
   Object.entries(props)

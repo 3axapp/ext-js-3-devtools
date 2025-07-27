@@ -13,10 +13,7 @@
       </as-split-area>
       <as-split-area size="22">
         @if (parents()) {
-          <app-breadcrumbs
-            [parents]="parents()!"
-            (handleSelect)="handleSelect($event)"
-          ></app-breadcrumbs>
+          <app-breadcrumbs [parents]="parents()!" (handleSelect)="handleSelect($event)"></app-breadcrumbs>
         }
       </as-split-area>
     </as-split>

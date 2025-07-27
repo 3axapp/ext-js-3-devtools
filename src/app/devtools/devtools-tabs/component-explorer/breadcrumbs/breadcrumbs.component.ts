@@ -6,14 +6,10 @@ import {MatButton} from '@angular/material/button';
 
 @Component({
   selector: 'app-breadcrumbs',
-  imports: [
-    MatCard,
-    MatIcon,
-    MatButton
-  ],
+  imports: [MatCard, MatIcon, MatButton],
   templateUrl: './breadcrumbs.component.html',
   standalone: true,
-  styleUrl: './breadcrumbs.component.scss'
+  styleUrl: './breadcrumbs.component.scss',
 })
 export class BreadcrumbsComponent {
   readonly parents = input.required<FlatNode[]>();
@@ -40,7 +36,7 @@ export class BreadcrumbsComponent {
   private readonly breadcrumbsScrollLayout = signal<BreadcrumbsScrollLayout | undefined>(undefined);
 
   constructor() {
-    effect((cleanup) => {
+    effect(cleanup => {
       const observer = new ResizeObserver(() => this.updateScrollButtonVisibility());
       observer.observe(this.breadcrumbsScrollContent().nativeElement);
       cleanup(() => observer.disconnect());
