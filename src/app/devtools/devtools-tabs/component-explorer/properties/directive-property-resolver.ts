@@ -41,7 +41,7 @@ export class DirectivePropertyResolver {
   private _initialConfigSource: PropertyDataSource;
   private _listenersControls: PropertyDataSource;
 
-  constructor(
+  public constructor(
     private _messageBus: PortBus<Events>,
     private _props: ComponentProperties,
     private _directivePosition: DirectivePosition,
@@ -53,25 +53,25 @@ export class DirectivePropertyResolver {
     this._listenersControls = this._createDataSourceFromProps(listenersProps, ['listeners']);
   }
 
-  get directiveStateControls(): DirectiveTreeData {
+  public get directiveStateControls(): DirectiveTreeData {
     return getDirectiveControls(this._stateDataSource);
   }
 
-  get initialConfigControls(): DirectiveTreeData {
+  public get initialConfigControls(): DirectiveTreeData {
     return getDirectiveControls(this._initialConfigSource);
   }
 
-  get listenersControls(): DirectiveTreeData {
+  public get listenersControls(): DirectiveTreeData {
     return getDirectiveControls(this._listenersControls);
   }
 
-  get directiveProperties() {
+  public get directiveProperties() {
     return this._props;
   }
 
-  get directivePosition(): DirectivePosition {
-    return this._directivePosition;
-  }
+  // get directivePosition(): DirectivePosition {
+  //   return this._directivePosition;
+  // }
 
   private _createDataSourceFromProps(props: Record<string, Descriptor>, parents?: string[]): PropertyDataSource {
     return new PropertyDataSource(

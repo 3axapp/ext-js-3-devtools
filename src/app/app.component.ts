@@ -22,9 +22,9 @@ import {DevtoolsComponent} from './devtools/devtools.component';
   ],
 })
 export class AppComponent implements OnInit {
-  title = 'ext-js-3-devtools';
+  protected title = 'ext-js-3-devtools';
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     chrome.devtools.network.onNavigated.addListener(() => {
       window.location.reload();
     });

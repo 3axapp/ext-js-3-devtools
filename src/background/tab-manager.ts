@@ -137,7 +137,7 @@ export class TabManager {
           throw new Error('Expected two arguments for enableFrameConnection');
         }
 
-        const [frameId, tabId] = message.args as [frameId: number, tabId: number];
+        const [frameId, tabId] = message.args as unknown as [frameId: number, tabId: number];
 
         if (frameId === contentScriptConnection.frameId) {
           const tab = this.tabs[tabId];

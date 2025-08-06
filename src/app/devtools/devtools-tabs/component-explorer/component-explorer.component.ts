@@ -1,7 +1,7 @@
 import {Component, inject, output, signal, viewChild} from '@angular/core';
 import {SplitAreaComponent, SplitComponent} from 'angular-split';
 import {FlatNode} from './models/flat-node';
-import {FlatNode as PropertyFlatNode, Property} from './properties/properties';
+import {Property} from './properties/properties';
 import {BreadcrumbsComponent} from './breadcrumbs/breadcrumbs.component';
 import {ComponentForestComponent} from './component-forest/component-forest.component';
 import {
@@ -13,7 +13,7 @@ import {
   Events,
   PropType,
 } from '../../../protocols/messages';
-import {PropertiesComponent} from './properties/properties.component';
+import {InspectionData, PropertiesComponent} from './properties/properties.component';
 import {IndexedNode} from './component-forest/models/index-forest';
 import {PortBus} from '../../../protocols/port-bus';
 
@@ -25,30 +25,30 @@ import {PortBus} from '../../../protocols/port-bus';
   styleUrl: './component-explorer.component.scss',
 })
 export class ComponentExplorerComponent {
-  readonly toggleInspector = output<void>();
-  readonly selectComponent = output<void>();
+  public readonly toggleInspector = output<void>();
+  public readonly selectComponent = output<void>();
 
-  readonly splitDirection = signal<'horizontal' | 'vertical'>('horizontal');
+  protected readonly splitDirection = signal<'horizontal' | 'vertical'>('horizontal');
 
-  readonly forest = signal<DevToolsNode[]>([]);
-  readonly parents = signal<FlatNode[] | null>(null);
-  readonly componentForest = viewChild.required(ComponentForestComponent);
-  readonly currentSelectedElement = signal<IndexedNode | null>(null);
-  readonly properties = signal<ComponentProperties | null>(null);
+  protected readonly forest = signal<DevToolsNode[]>([]);
+  protected readonly parents = signal<FlatNode[] | null>(null);
+  private readonly componentForest = viewChild.required(ComponentForestComponent);
+  protected readonly currentSelectedElement = signal<IndexedNode | null>(null);
+  protected readonly properties = signal<ComponentProperties | null>(null);
 
   private _clickedElement: IndexedNode | null = null;
   private readonly _messageBus = inject<PortBus<Events>>(PortBus);
 
-  constructor() {
+  public constructor() {
     this.subscribeToBackendEvents();
     this.refresh();
   }
 
-  handleSetParents(parents: FlatNode[] | null): void {
+  protected handleSetParents(parents: FlatNode[] | null): void {
     this.parents.set(parents);
   }
 
-  handleNodeSelection(node: IndexedNode | null): void {
+  protected handleNodeSelection(node: IndexedNode | null): void {
     if (node) {
       this._clickedElement = node;
       this._messageBus.emit('setSelectedComponent', node.path);
@@ -59,15 +59,15 @@ export class ComponentExplorerComponent {
     }
   }
 
-  highlightComponent(path: ElementPath): void {
+  protected highlightComponent(path: ElementPath): void {
     this._messageBus.emit('createHighlightOverlay', path);
   }
 
-  removeComponentHighlight(): void {
+  protected removeComponentHighlight(): void {
     this._messageBus.emit('removeHighlightOverlay');
   }
 
-  handleSelect(node: FlatNode): void {
+  protected handleSelect(node: FlatNode): void {
     this.componentForest()?.handleSelect(node);
   }
 
@@ -96,15 +96,15 @@ export class ComponentExplorerComponent {
     };
   }
 
-  inspect($event: {node: PropertyFlatNode; componentPath: ElementPath; parents?: string[]}) {
+  protected inspect($event: InspectionData) {
     if ($event.node.prop?.descriptor.type == PropType.Component) {
-      this.componentForest()?.selectNodeByComponentId($event.node.prop.descriptor.value);
+      this.componentForest()?.selectNodeByComponentId($event.node.prop.descriptor.value as string);
       return;
     }
 
-    let t: DevToolsNode = {children: this.forest()} as any;
+    let t: Partial<DevToolsNode> = {children: this.forest()};
     for (const i of $event.componentPath) {
-      t = t.children[i];
+      t = t.children![i];
     }
     const propertyPath: string[] = [];
     let node: Property | null = $event.node.prop;
@@ -119,12 +119,12 @@ export class ComponentExplorerComponent {
     chrome.devtools.inspectedWindow.eval(script);
   }
 
-  highlightPropertyComponent($event: {node: PropertyFlatNode; componentPath: ElementPath; parents?: string[]}) {
+  protected highlightPropertyComponent($event: InspectionData) {
     if ($event.node.prop?.descriptor.type != PropType.Component) {
       return;
     }
 
-    const foundNode = this.componentForest()?.highlightNodeByComponentId($event.node.prop.descriptor.value);
+    const foundNode = this.componentForest()?.highlightNodeByComponentId($event.node.prop.descriptor.value as string);
     if (!foundNode) {
       return;
     }

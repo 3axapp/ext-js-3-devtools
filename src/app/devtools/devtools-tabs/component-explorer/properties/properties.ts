@@ -12,10 +12,9 @@ export interface Property {
   parent: Property | null;
 }
 
-export const arrayifyProps = (
-  props: Record<string, Descriptor> | Descriptor[],
-  parent: Property | null = null,
-): Property[] =>
+export type PropsContainer = Record<string, Descriptor> | Descriptor[];
+
+export const arrayifyProps = (props: PropsContainer, parent: Property | null = null): Property[] =>
   Object.entries(props)
     .map(([name, val]) => ({name, descriptor: val, parent}))
     .sort((a, b) => {

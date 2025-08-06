@@ -28,7 +28,7 @@ export interface ComponentProperties {
   parentClasses: ParentClasses;
 }
 
-export interface Events extends Record<string, any> {
+export interface Events extends Record<string, (...args: never[]) => void> {
   contentScriptConnected: (frameId: number, name: string, url: string) => void;
   contentScriptDisconnected: (frameId: number, name: string, url: string) => void;
   enableFrameConnection: (frameId: number, tabId: number) => void;
@@ -65,7 +65,7 @@ export interface Message<T, E extends keyof T = keyof T> {
   args: Parameters<T[E]>;
 }
 
-export type Parameters<F> = F extends (...args: infer T) => any ? T : never;
+export type Parameters<F> = F extends (...args: infer T) => unknown ? T : never;
 export type Unsubscriber = () => void;
 
 export enum PropType {
@@ -93,7 +93,7 @@ export interface Properties {
 
 export interface Descriptor {
   expandable: boolean;
-  value?: any;
+  value?: unknown;
   editable: boolean;
   type: PropType;
   preview: string;
