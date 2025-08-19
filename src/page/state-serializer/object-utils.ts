@@ -1,8 +1,8 @@
-export const getDescriptor = (instance: any, propName: string): PropertyDescriptor | undefined =>
+export const getDescriptor = (instance: object | never[], propName: string): PropertyDescriptor | undefined =>
   Object.getOwnPropertyDescriptor(instance, propName) ||
   Object.getOwnPropertyDescriptor(Object.getPrototypeOf(instance), propName);
 
-export function getKeys(obj: {}): string[] {
+export function getKeys(obj?: object): string[] {
   if (!obj) {
     return [];
   }

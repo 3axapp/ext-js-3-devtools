@@ -20,7 +20,7 @@ const events: Topic[] = [
 ];
 
 for (const event of events) {
-  windowBus.on(event, (...args: any[]) => {
+  windowBus.on(event, (...args: never[]) => {
     if (backgroundDisconnected) {
       return;
     }
@@ -36,7 +36,7 @@ port.onDisconnect.addListener(() => {
 });
 
 port.onMessage.addListener(m => {
-  windowBus.emit(m.topic, ...m.args);
+  windowBus.emit(m.topic, ...(m.args as never[]));
 });
 
 const s = document.createElement('script');

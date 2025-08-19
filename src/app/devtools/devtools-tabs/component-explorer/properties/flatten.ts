@@ -8,7 +8,7 @@
 
 import {MatTreeFlattener} from '@angular/material/tree';
 import {Observable} from 'rxjs';
-import {arrayifyProps, FlatNode, Property} from './properties';
+import {arrayifyProps, FlatNode, Property, PropsContainer} from './properties';
 import {Descriptor, PropType} from '../../../../protocols/messages';
 
 export const getTreeFlattener = () =>
@@ -41,7 +41,7 @@ const getChildren = (prop: Property): Property[] | undefined => {
     (descriptor.type === PropType.Object || descriptor.type === PropType.Array) &&
     !(descriptor.value instanceof Observable)
   ) {
-    return arrayifyProps(descriptor.value || {}, prop);
+    return arrayifyProps((descriptor.value || {}) as PropsContainer, prop);
   }
   console.error('Unexpected data type', descriptor, 'in property', prop);
   return;

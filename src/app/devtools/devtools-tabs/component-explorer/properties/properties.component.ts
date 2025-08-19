@@ -26,20 +26,20 @@ import {DirectivePropertyResolver} from './directive-property-resolver';
   styleUrl: './properties.component.scss',
 })
 export class PropertiesComponent {
-  currentSelectedElement = input.required<IndexedNode>();
-  properties = input.required<ComponentProperties>();
-  messageBus = inject(PortBus);
+  public currentSelectedElement = input.required<IndexedNode>();
+  public properties = input.required<ComponentProperties>();
+  private readonly messageBus = inject(PortBus);
 
-  readonly inspect = output<{node: FlatNode; componentPath: ElementPath; parents?: string[]}>();
-  readonly highlight = output<{node: FlatNode; componentPath: ElementPath; parents?: string[]}>();
-  readonly removeHighlight = output<void>();
+  public readonly inspect = output<InspectionData>();
+  public readonly highlight = output<InspectionData>();
+  public readonly removeHighlight = output<void>();
 
-  readonly documentationUrl = 'https://docs.sencha.com/extjs/3.4.0/#!/api/';
-  readonly documentation = computed<string>(() => {
+  protected readonly documentationUrl = 'https://docs.sencha.com/extjs/3.4.0/#!/api/';
+  protected readonly documentation = computed<string>(() => {
     return `https://docs.sencha.com/extjs/3.4.0/#!/api/${this.currentSelectedElement().type}`;
   });
 
-  readonly panels = computed<Panels>(() => {
+  protected readonly panels = computed<Panels>(() => {
     const resolver = new DirectivePropertyResolver(this.messageBus, this.properties(), {
       element: this.currentSelectedElement().path,
       directive: 0,
@@ -68,7 +68,7 @@ export class PropertiesComponent {
     ];
   });
 
-  handleInspect(node: FlatNode, parents?: string[]): void {
+  protected handleInspect(node: FlatNode, parents?: string[]): void {
     this.inspect.emit({
       node,
       componentPath: this.currentSelectedElement().path,
@@ -76,7 +76,7 @@ export class PropertiesComponent {
     });
   }
 
-  public handleHighlight(node: FlatNode, parents?: string[]) {
+  protected handleHighlight(node: FlatNode, parents?: string[]) {
     this.highlight.emit({
       node,
       componentPath: this.currentSelectedElement().path,
@@ -97,4 +97,10 @@ type Panels = {
 export interface DirectiveTreeData {
   dataSource: PropertyDataSource;
   treeControl: FlatTreeControl<FlatNode>;
+}
+
+export interface InspectionData {
+  node: FlatNode;
+  componentPath: ElementPath;
+  parents?: string[];
 }

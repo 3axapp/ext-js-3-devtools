@@ -32,6 +32,22 @@ module.exports = tseslint.config(
           style: "kebab-case",
         },
       ],
+      "@typescript-eslint/explicit-member-accessibility": [
+        "error",
+        {
+          "accessibility": "explicit"
+        }
+      ]
+    },
+  },
+  {
+    files: [
+      "./src/page/state-serializer/types.d.ts",
+      "./src/page/ext-js/ext-js.d.ts",
+    ],
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+      "@typescript-eslint/no-unsafe-function-type": "off",
     },
   },
   {

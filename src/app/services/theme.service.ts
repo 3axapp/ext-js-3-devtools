@@ -1,4 +1,4 @@
-import {Injectable, signal} from '@angular/core';
+import {Injectable} from '@angular/core';
 
 const DARK_THEME_CLASS = 'dark-theme';
 const LIGHT_THEME_CLASS = 'light-theme';
@@ -19,7 +19,6 @@ declare const browser: {
 export class ThemeService {
   private win = window;
   private doc = document;
-  readonly currentTheme = signal<Theme>(DARK_THEME_CLASS);
 
   public async initialize() {
     this.set(await this.getPrefersDarkMode());
@@ -40,9 +39,7 @@ export class ThemeService {
   }
 
   private set(isDark: boolean): void {
-    const addClass = !isDark ? LIGHT_THEME_CLASS : DARK_THEME_CLASS;
-    this.doc.body.className = addClass;
-    this.currentTheme.set(addClass);
+    this.doc.body.className = !isDark ? LIGHT_THEME_CLASS : DARK_THEME_CLASS;
 
     browser.storage.local.set({isDark});
   }
