@@ -53,7 +53,7 @@ https://addons.mozilla.org/firefox/addon/ext-js-3-devtools/
 
 ### 2. Собранное расширение
 
-Со страницы [релизов](https://github.com/3axapp/ext-js-3-devtools/releases) скачать файл `xpi` из `Assets`
+Со страницы [релизов](https://gitverse.ru/3axapp/ext-js-3-devtools/releases) скачать файл `xpi` из `Assets`
 ![releases.png](docs/releases.png)
 
 ### 3. Собрать и установить как временное расширение
@@ -61,7 +61,7 @@ https://addons.mozilla.org/firefox/addon/ext-js-3-devtools/
 Сборка
 
 ```shell
-git clone git@github.com:3axapp/ext-js-3-devtools.git
+git clone https://gitverse.ru/3axapp/ext-js-3-devtools.git
 cd ext-js-3-devtools
 npm install
 make
