@@ -1,6 +1,6 @@
-import {Message, Parameters} from '../app/protocols/messages';
+import {Events, Message, Parameters} from '../app/protocols/messages';
 
-export class WindowBus<T extends Record<string, (...args: any[]) => void>> {
+export class WindowBus<T extends Events> {
   private listeners: Partial<T> = {};
 
   private windowListener = (e: MessageEvent<Message<T>>) => {

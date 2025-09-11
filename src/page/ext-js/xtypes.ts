@@ -1,7 +1,7 @@
 // http://cdn.sencha.com/ext/gpl/3.4.1.1/docs/#!/api/Ext.Component
 export const xTypeAliases: Record<string, string> = {
-//   xtype            Class
-// -------------    ------------------
+  //   xtype            Class
+  // -------------    ------------------
   box: 'Ext.BoxComponent',
   button: 'Ext.Button',
   buttongroup: 'Ext.ButtonGroup',
@@ -28,11 +28,11 @@ export const xTypeAliases: Record<string, string> = {
   viewport: 'Ext.ViewPort',
   window: 'Ext.Window',
 
-// Toolbar components
-// ---------------------------------------
+  // Toolbar components
+  // ---------------------------------------
   paging: 'Ext.PagingToolbar',
   toolbar: 'Ext.Toolbar',
-  tbbutton: 'Ext.Toolbar.Button',         //(deprecated; use button)
+  tbbutton: 'Ext.Toolbar.Button', //(deprecated; use button)
   tbfill: 'Ext.Toolbar.Fill',
   tbitem: 'Ext.Toolbar.Item',
   tbseparator: 'Ext.Toolbar.Separator',
@@ -40,8 +40,8 @@ export const xTypeAliases: Record<string, string> = {
   tbsplit: 'Ext.Toolbar.SplitButton', //(deprecated; use splitbutton)
   tbtext: 'Ext.Toolbar.TextItem',
 
-// Menu components
-// ---------------------------------------
+  // Menu components
+  // ---------------------------------------
   menu: 'Ext.menu.Menu',
   colormenu: 'Ext.menu.ColorMenu',
   datemenu: 'Ext.menu.DateMenu',
@@ -51,8 +51,8 @@ export const xTypeAliases: Record<string, string> = {
   menuseparator: 'Ext.menu.Separator',
   menutextitem: 'Ext.menu.TextItem',
 
-// Form components
-// ---------------------------------------
+  // Form components
+  // ---------------------------------------
   form: 'Ext.form.FormPanel',
   checkbox: 'Ext.form.Checkbox',
   checkboxgroup: 'Ext.form.CheckboxGroup',
@@ -74,8 +74,8 @@ export const xTypeAliases: Record<string, string> = {
   trigger: 'Ext.form.TriggerField',
   twintrigger: 'Ext.form.TwinTriggerField',
 
-// Chart components
-// ---------------------------------------
+  // Chart components
+  // ---------------------------------------
   chart: 'Ext.chart.Chart',
   barchart: 'Ext.chart.BarChart',
   cartesianchart: 'Ext.chart.CartesianChart',
@@ -83,13 +83,13 @@ export const xTypeAliases: Record<string, string> = {
   linechart: 'Ext.chart.LineChart',
   piechart: 'Ext.chart.PieChart',
 
-// Store xtypes
-// ---------------------------------------
+  // Store xtypes
+  // ---------------------------------------
   arraystore: 'Ext.data.ArrayStore',
   directstore: 'Ext.data.DirectStore',
   groupingstore: 'Ext.data.GroupingStore',
   jsonstore: 'Ext.data.JsonStore',
-  simplestore: 'Ext.data.SimpleStore',        //(deprecated; use arraystore)
+  simplestore: 'Ext.data.SimpleStore', //(deprecated; use arraystore)
   store: 'Ext.data.Store',
   xmlstore: 'Ext.data.XmlStore',
 };

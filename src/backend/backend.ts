@@ -19,8 +19,8 @@ const events: Topic[] = [
   'removeComponentHighlight',
 ];
 
-for (let event of events) {
-  windowBus.on(event, (...args: any[]) => {
+for (const event of events) {
+  windowBus.on(event, (...args: never[]) => {
     if (backgroundDisconnected) {
       return;
     }
@@ -35,8 +35,8 @@ port.onDisconnect.addListener(() => {
   windowBus.destroy();
 });
 
-port.onMessage.addListener((m) => {
-  windowBus.emit(m.topic, ...m.args);
+port.onMessage.addListener(m => {
+  windowBus.emit(m.topic, ...(m.args as never[]));
 });
 
 function pingBackground(): void {
@@ -51,7 +51,6 @@ function pingBackground(): void {
 
 pingBackground();
 
-const s = document.createElement("script");
-s.src = chrome.runtime.getURL("/page.js");
+const s = document.createElement('script');
+s.src = chrome.runtime.getURL('/page.js');
 (document.head || document.documentElement).appendChild(s);
-

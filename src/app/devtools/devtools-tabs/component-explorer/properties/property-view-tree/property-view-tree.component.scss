@@ -1,0 +1,64 @@
+$base-font-size: 0.8em;
+
+:host {
+  width: 100%;
+  display: block;
+}
+
+mat-tree {
+  display: table;
+}
+
+.mat-tree-node {
+  min-height: 20px !important;
+  cursor: default;
+  align-items: baseline;
+  font-size: $base-font-size;
+
+  .mat-icon {
+    font-size: 11px;
+    width: 8px;
+    height: 16px;
+    position: relative;
+    top: 6px;
+  }
+}
+
+.mat-nested-tree-node {
+  font-size: $base-font-size;
+}
+
+.name {
+  margin-left: -9px;
+}
+
+.non-expandable {
+  margin-left: 18px;
+}
+
+.property-list {
+  margin: 5px 5px 5px 15px;
+
+  mat-tree-node {
+    .name {
+      color: var(--color-property-list-name);
+      font-weight: 500;
+    }
+
+    &.disabled {
+      .name {
+        color: var(--color-disabled);
+      }
+    }
+  }
+}
+
+.disabled {
+  color: var(--color-disabled);
+}
+
+.arrow {
+  font-family: monospace;
+  font-size: 0.5em;
+  color: var(--color-property-tree-arrow);
+}

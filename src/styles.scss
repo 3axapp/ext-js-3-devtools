@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'sass:map';
 @use '@angular/material' as mat;
+@use 'colors' as colors;
 
 html,
 body {
@@ -41,19 +42,19 @@ $dark-theme: map.deep-merge(
     (
       'color': (
         'background': (
-          background: #202124,
-          card: #202124,
+          background: colors.$dark-color-background-background,
+          card: colors.$dark-color-background-background,
         ),
         'foreground': (
-          text: #bcc5ce,
+          text: colors.$dark-color-foreground-text,
         ),
       ),
       'background': (
-        background: #202124,
-        card: #202124,
+        background: colors.$dark-color-background-background,
+        card: colors.$dark-color-background-background,
       ),
       'foreground': (
-        'text': #bcc5ce,
+        'text': colors.$dark-color-foreground-text,
       ),
     )
 );
@@ -66,7 +67,7 @@ $dark-theme: map.deep-merge(
 
 .dark-theme {
   color-scheme: dark;
-  background: #202124;
+  background: var(--mat-app-background-color, var(--mat-sys-background, transparent));
   @include mat.all-component-colors($dark-theme);
 
   .mat-mdc-chip.mat-mdc-standard-chip {
@@ -82,4 +83,23 @@ app-devtools {
 
 .mat-mdc-menu-content {
   padding: 0 !important;
+}
+
+as-split {
+  .as-split-gutter[style] {
+    border: 3px solid var(--mat-app-background-color, var(--mat-sys-background, transparent));
+    background-color: var(--color-separator);
+
+    &[aria-orientation="vertical"] {
+      border-width: 3px 0;
+    }
+
+    &[aria-orientation="horizontal"] {
+      border-width: 0 3px;
+    }
+
+    .as-split-gutter-icon {
+      display: none;
+    }
+  }
 }

@@ -1,17 +1,13 @@
-<div class="mat-typography mat-app-background" style="height: 100%;">
+<div class="mat-typography mat-app-background" style="height: 100%">
   @switch (extJSStatus()) {
     @case (ExtJSStatuses.EXISTS) {
       <app-devtools-tabs></app-devtools-tabs>
     }
     @case (ExtJSStatuses.DOES_NOT_EXIST) {
-      <p class="text-message">
-        Ext JS 3.4 не обнаружен
-      </p>
+      <p class="text-message">Ext JS 3.4 не обнаружен</p>
     }
     @case (ExtJSStatuses.UNKNOWN) {
-      <p class="text-message">
-        ожидаем...
-      </p>
+      <p class="text-message">ожидаем...</p>
     }
   }
 </div>

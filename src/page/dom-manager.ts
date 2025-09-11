@@ -6,9 +6,9 @@ import {ComponentInspector} from './component-inspector/component-inspector';
 import {StateSerializer} from './state-serializer/state-serializer';
 import {unHighlight} from './component-inspector/highlighter';
 import {DevToolsConsole} from './dev-tools-console';
+import {SerializableFunction} from './state-serializer/types';
 
 export class DomManager {
-
   private selectedNode?: ComponentNode;
 
   public constructor(
@@ -17,8 +17,7 @@ export class DomManager {
     private inspector: ComponentInspector,
     private devToolsConsole: DevToolsConsole,
     private stateSerializer: StateSerializer,
-  ) {
-  }
+  ) {}
 
   public initialize() {
     this.initWindowEvents();
@@ -26,7 +25,6 @@ export class DomManager {
     this.initDetectorEvents();
     this.initComplete();
   }
-
 
   private getLatestComponentExplorerView() {
     const forest = this.detector.buildForest();
@@ -49,30 +47,27 @@ export class DomManager {
   }
 
   private getComponent(path: ElementPath) {
-    let n: ComponentNode = {children: this.detector.getForest()} as any;
-    for (let i of path) {
-      n = n.children[i];
+    let n: Partial<ComponentNode> = {children: this.detector.getForest()};
+    for (const i of path) {
+      n = n.children![i];
     }
 
-    return n;
-  };
+    return n as ComponentNode;
+  }
 
   private initWindowEvents() {
     this.bus.on('queryExtJSAvailability', () => {
       this.bus.emit('extJSAvailability', {exists: this.detector.detect()});
     });
     this.bus.on('getLatestComponentExplorerView', this.getLatestComponentExplorerView.bind(this));
-    this.bus.on('setSelectedComponent', (path) => {
+    this.bus.on('setSelectedComponent', path => {
       this.selectedNode = this.getComponent(path);
       this.devToolsConsole.setReference(this.selectedNode.component);
     });
 
     this.bus.on('getNestedProperties', (position, propPath) => {
       const emitEmpty = () => this.bus.emit('nestedProperties', position, {props: {}}, propPath);
-      const node = queryDirectiveForest(
-        position.element,
-        this.detector.getForest(),
-      );
+      const node = queryDirectiveForest(position.element, this.detector.getForest());
       if (!node) {
         return emitEmpty();
       }
@@ -80,29 +75,25 @@ export class DomManager {
       if (!current) {
         return emitEmpty();
       }
-      let data: any = current;
+      let data: object = current;
       if (this.isListenersProp(propPath)) {
         data = this.getNestedListenersProperties(current, propPath);
       } else {
         for (const prop of propPath) {
-          data = data[prop];
+          data = (data as Record<string, object>)[prop];
           if (!data) {
             console.error('Cannot access the properties', propPath, 'of', node);
           }
         }
       }
-      this.bus.emit('nestedProperties',
-        position,
-        {props: this.stateSerializer.serialize(data)},
-        propPath,
-      );
+      this.bus.emit('nestedProperties', position, {props: this.stateSerializer.serialize(data)}, propPath);
       return;
     });
 
     this.bus.on('inspectorStart', () => this.inspector.startInspecting());
     this.bus.on('inspectorEnd', () => this.inspector.stopInspecting());
 
-    this.bus.on('createHighlightOverlay', (path) => {
+    this.bus.on('createHighlightOverlay', path => {
       const component = this.getComponent(path);
       if (component) {
         this.inspector.highlightComponent(component);
@@ -113,8 +104,8 @@ export class DomManager {
   }
 
   private initInspectorEvents() {
-    this.inspector.on('componentSelect', (component) => this.bus.emit('selectComponent', component.id));
-    this.inspector.on('componentEnter', (component) => this.bus.emit('highlightComponent', component.id));
+    this.inspector.on('componentSelect', component => this.bus.emit('selectComponent', component.id));
+    this.inspector.on('componentEnter', component => this.bus.emit('highlightComponent', component.id));
     this.inspector.on('componentLeave', () => this.bus.emit('removeComponentHighlight'));
   }
 
@@ -133,17 +124,16 @@ export class DomManager {
   }
 
   private collectListeners(component: Ext.Component): Listeners {
-    const listeners: Record<string, Function[]> = {};
+    const listeners: Record<string, SerializableFunction[]> = {};
 
-    for (let [name, value] of Object.entries(component.events)) {
+    for (const [name, value] of Object.entries(component.events)) {
       if (typeof value === 'boolean' || value.listeners.length === 0) {
         continue;
       }
       listeners[name] = [];
-      for (let listener of value.listeners) {
+      for (const listener of value.listeners) {
         listeners[name].push(listener.fn);
       }
-
     }
 
     return listeners;
@@ -184,9 +174,6 @@ const componentToDevTools = (node: ComponentNode): DevToolsNode => ({
   children: node.children.map(componentToDevTools),
 });
 
-type Listeners = Record<string, Listener[]>;
-
-interface Listener {
-}
+type Listeners = Record<string, SerializableFunction[]>;
 
 export type ParentClasses = string[];

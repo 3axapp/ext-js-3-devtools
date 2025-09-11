@@ -1,6 +1,6 @@
 {
   "name": "ext-js-3-devtools",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -10,7 +10,8 @@
     "test": "ng test",
     "backend": "webpack --config webpack.backend.js",
     "backend-watch": "webpack  --watch --config webpack.backend.js",
-    "ext": "web-ext"
+    "ext": "web-ext",
+    "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
@@ -34,14 +35,21 @@
     "@angular/cli": "^20.0.2",
     "@angular/compiler-cli": "^20.0.3",
     "@types/jasmine": "~5.1.0",
+    "angular-eslint": "20.1.1",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
     "jasmine-core": "~5.4.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "prettier": "^3.6.2",
+    "prettier-eslint": "^16.4.2",
     "ts-loader": "^9.5.2",
     "typescript": "~5.8.3",
+    "typescript-eslint": "8.34.1",
     "web-ext": "^8.4.0",
     "webpack-cli": "^6.0.1"
   }

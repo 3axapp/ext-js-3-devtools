@@ -1,0 +1,7 @@
+.function {
+  &:hover {
+    background: var(--bg-property-function);
+    color: var(--color-property-function);
+    cursor: pointer;
+  }
+}

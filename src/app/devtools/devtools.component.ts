@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
-import {DevtoolsTabsComponent} from '../devtools-tabs/devtools-tabs.component';
+import {DevtoolsTabsComponent} from './devtools-tabs/devtools-tabs.component';
 import {interval} from 'rxjs';
 import {Events} from '../protocols/messages';
 import {PortBus} from '../protocols/port-bus';
@@ -26,16 +26,14 @@ const DETECT_ATTEMPTS = 5;
 
 @Component({
   selector: 'app-devtools',
-  imports: [
-    DevtoolsTabsComponent
-  ],
+  imports: [DevtoolsTabsComponent],
   templateUrl: './devtools.component.html',
   standalone: true,
-  styleUrl: './devtools.component.scss'
+  styleUrl: './devtools.component.scss',
 })
 export class DevtoolsComponent implements OnInit, OnDestroy {
-  readonly ExtJSStatuses = ExtJSStatuses;
-  readonly extJSStatus = signal(ExtJSStatuses.UNKNOWN);
+  protected readonly ExtJSStatuses = ExtJSStatuses;
+  protected readonly extJSStatus = signal(ExtJSStatuses.UNKNOWN);
 
   private readonly _messageBus = inject<PortBus<Events>>(PortBus);
 
@@ -46,8 +44,8 @@ export class DevtoolsComponent implements OnInit, OnDestroy {
     this._messageBus.emit('queryExtJSAvailability');
   });
 
-  ngOnInit(): void {
-    this._messageBus.on('contentScriptConnected', (frameId: number, name: string, url: string) => {
+  public ngOnInit(): void {
+    this._messageBus.on('contentScriptConnected', (frameId: number) => {
       this.extJSStatus.set(ExtJSStatuses.UNKNOWN);
       this._messageBus.emit('enableFrameConnection', frameId, chrome.devtools.inspectedWindow.tabId);
 
@@ -65,7 +63,7 @@ export class DevtoolsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this._detectorInterval$.unsubscribe();
   }
 }

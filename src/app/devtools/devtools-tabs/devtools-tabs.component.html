@@ -1,0 +1,16 @@
+<div class="nav-buttons">
+  <div class="nav-buttons__tools">
+    <button (click)="toggleInspector()" matTooltip="Выбрать компонент на странице">
+      <mat-icon [class.inspector-active]="inspectorRunning()">pin_end</mat-icon>
+    </button>
+  </div>
+  <div class="nav-buttons__settings">
+    <button (click)="toggleTheme()" matTooltip="Переключение цветовой темы" class="theme-toggle">
+      <mat-icon svgIcon="toggle-theme"></mat-icon>
+    </button>
+  </div>
+</div>
+
+<div class="tab-content">
+  <app-component-explorer (toggleInspector)="toggleInspector()"></app-component-explorer>
+</div>

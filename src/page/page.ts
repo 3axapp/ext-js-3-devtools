@@ -7,7 +7,6 @@ import {DevToolsConsole} from './dev-tools-console';
 import {StateSerializer} from './state-serializer/state-serializer';
 
 (function () {
-
   const SOURCE = 'extjs-devtools';
   const DESTINATION = SOURCE + '-backend';
 

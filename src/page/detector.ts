@@ -1,22 +1,18 @@
 import {ComponentNode} from './forest';
 import {xTypeAliases} from './ext-js/xtypes';
+import {SerializableFunction} from './state-serializer/types';
 
-export let types: Map<Function, string> = new Map();
+export let types = new Map<SerializableFunction, string>();
 let indexMap: Map<Ext.Component, Ext.Component[]>;
 
 export class Detector {
-
   private forest: ComponentNode[] = [];
 
   public detect() {
-    return Boolean(
-      window.Ext &&
-      Ext?.versionDetail?.major == 3 &&
-      Ext.versionDetail?.minor == 4,
-    );
+    return Boolean(window.Ext && Ext?.versionDetail?.major == 3 && Ext.versionDetail?.minor == 4);
   }
 
-  public onChange(cb: Function) {
+  public onChange(cb: () => void) {
     if (!this.detect()) {
       return;
     }
@@ -38,11 +34,11 @@ export class Detector {
   public buildForest(): ComponentNode[] {
     types = new Map();
     types.set(Ext.util.Observable, 'Ext.util.Observable');
-    for (let [n, c] of Object.entries(Ext!.ComponentMgr.types)) {
+    for (const [n, c] of Object.entries(Ext!.ComponentMgr.types)) {
       types.set(c, xTypeAliases[n] || n);
     }
     indexMap = new Map();
-    window.Ext!.ComponentMgr.all.items.forEach((i) => {
+    window.Ext!.ComponentMgr.all.items.forEach(i => {
       const ownerCt = i.ownerCt || i.initialConfig['ownerCt'];
       if (!ownerCt) {
         return;
@@ -52,7 +48,7 @@ export class Detector {
       }
       indexMap.get(ownerCt)!.push(i);
     });
-    return this.forest = this.findRoots().map(extJSComponentToNodeWithChildren);
+    return (this.forest = this.findRoots().map(extJSComponentToNodeWithChildren));
   }
 
   public getForest(): ComponentNode[] {
@@ -100,5 +96,3 @@ const addChildren = (i: ComponentNode): ComponentNode => {
   }
   return i;
 };
-
-
