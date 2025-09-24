@@ -51,7 +51,7 @@ export declare global {
         dom: HTMLElement;
         id: string;
       };
-      events: Record<string, boolean | ComponentListenerCollection>;
+      events: Record<string, boolean | string | ComponentListenerCollection>;
     }
   }
 }

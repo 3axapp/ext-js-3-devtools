@@ -126,7 +126,7 @@ export class DomManager {
     const listeners: Record<string, Function[]> = {};
 
     for (const [name, value] of Object.entries(component.events)) {
-      if (typeof value === 'boolean' || value.listeners.length === 0) {
+      if (!value || typeof value !== 'object' || value.listeners.length === 0) {
         continue;
       }
       listeners[name] = [];
@@ -156,7 +156,7 @@ export class DomManager {
 
   private getNestedListenersProperties(component: Ext.Component, propPath: string[]) {
     const listenersCollection = component.events[propPath[1]];
-    if (typeof listenersCollection === 'boolean') {
+    if (!listenersCollection || typeof listenersCollection !== 'object') {
       return [];
     }
     return listenersCollection.listeners.map(i => i.fn);
