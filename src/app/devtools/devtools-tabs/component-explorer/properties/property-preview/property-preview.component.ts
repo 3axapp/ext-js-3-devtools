@@ -10,12 +10,12 @@ import {PropType} from '../../../../../protocols/messages';
   styleUrl: './property-preview.component.scss',
 })
 export class PropertyPreviewComponent {
-  readonly node = input.required<FlatNode>();
-  readonly inspect = output<void>();
-  readonly highlight = output<void>();
-  readonly removeHighlight = output<void>();
+  public readonly node = input.required<FlatNode>();
+  public readonly inspect = output<void>();
+  public readonly highlight = output<void>();
+  public readonly removeHighlight = output<void>();
 
-  readonly isClickableProp = computed(() => {
+  protected readonly isClickableProp = computed(() => {
     const node = this.node();
     return (
       node.prop.descriptor.type === PropType.Function ||
@@ -23,7 +23,8 @@ export class PropertyPreviewComponent {
       node.prop.descriptor.type === PropType.Component
     );
   });
-  readonly isHighlightable = computed(() => {
+
+  protected readonly isHighlightable = computed(() => {
     const node = this.node();
     return node.prop.descriptor.type === PropType.Component;
   });

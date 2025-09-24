@@ -2,26 +2,21 @@
 import Port = chrome.runtime.Port;
 import {Parameters} from './messages';
 
-export class PortBus<T extends Record<string, (...args: any[]) => void>> {
+export class PortBus<T extends Record<string, (...args: never[]) => void>> {
   private listeners: Partial<T> = {};
-  constructor(private port: Port) {
-    this.port.onMessage.addListener((e: {topic: keyof T; args: any[]}) => {
+  public constructor(private port: Port) {
+    this.port.onMessage.addListener(<E extends keyof T>(e: {topic: E; args: Parameters<T[E]>}) => {
       if (this.listeners[e.topic]) {
         this.listeners[e.topic]!(...e.args);
       }
     });
   }
 
-  on<E extends keyof T>(topic: E, cb: T[E]): void {
+  public on<E extends keyof T>(topic: E, cb: T[E]): void {
     this.listeners[topic] = cb;
   }
 
-  emit<E extends keyof T>(topic: E, ...args: Parameters<T[E]>): void {
+  public emit<E extends keyof T>(topic: E, ...args: Parameters<T[E]>): void {
     this.port.postMessage({topic, args});
-    // window.postMessage({
-    //   source: this.source,
-    //   topic,
-    //   args
-    // });
   }
 }

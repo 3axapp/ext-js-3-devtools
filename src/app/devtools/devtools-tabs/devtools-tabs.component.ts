@@ -14,20 +14,20 @@ import {ThemeService} from '../../services/theme.service';
   styleUrl: './devtools-tabs.component.scss',
 })
 export class DevtoolsTabsComponent {
-  readonly inspectorRunning = signal(false);
+  protected readonly inspectorRunning = signal(false);
   private readonly _messageBus = inject<PortBus<Events>>(PortBus);
   private readonly _themeService = inject(ThemeService);
 
-  toggleInspector() {
+  protected toggleInspector() {
     this.toggleInspectorState();
     this.emitInspectorEvent();
   }
 
-  toggleInspectorState(): void {
+  private toggleInspectorState(): void {
     this.inspectorRunning.update(state => !state);
   }
 
-  emitInspectorEvent(): void {
+  private emitInspectorEvent(): void {
     if (this.inspectorRunning()) {
       this._messageBus.emit('inspectorStart');
     } else {
@@ -35,7 +35,7 @@ export class DevtoolsTabsComponent {
     }
   }
 
-  toggleTheme() {
+  protected toggleTheme() {
     this._themeService.toggle();
   }
 }

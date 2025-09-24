@@ -13,7 +13,7 @@ export interface MovedRecord {
   previousIndex: number;
 }
 
-export const diff = <T>(
+export const diff = <T extends object>(
   differ: DefaultIterableDiffer<T>,
   a: T[],
   b: T[],
@@ -47,12 +47,12 @@ export const diff = <T>(
     } else {
       a[record.currentIndex] = {} as unknown as T;
     }
-    Object.keys(b[record.currentIndex] as unknown as {}).forEach(prop => {
+    (Object.keys(b[record.currentIndex]) as (keyof T)[]).forEach(prop => {
       // TypeScript's type inference didn't follow the check from above.
       if (record.currentIndex === null) {
         return;
       }
-      (a[record.currentIndex] as any)[prop] = (b[record.currentIndex] as any)[prop];
+      a[record.currentIndex][prop] = b[record.currentIndex][prop];
     });
     if (!alreadySet[record.previousIndex]) {
       a[record.previousIndex] = null!;

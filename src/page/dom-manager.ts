@@ -6,6 +6,7 @@ import {ComponentInspector} from './component-inspector/component-inspector';
 import {StateSerializer} from './state-serializer/state-serializer';
 import {unHighlight} from './component-inspector/highlighter';
 import {DevToolsConsole} from './dev-tools-console';
+import {SerializableFunction} from './state-serializer/types';
 
 export class DomManager {
   private selectedNode?: ComponentNode;
@@ -46,12 +47,12 @@ export class DomManager {
   }
 
   private getComponent(path: ElementPath) {
-    let n: ComponentNode = {children: this.detector.getForest()} as any;
+    let n: Partial<ComponentNode> = {children: this.detector.getForest()};
     for (const i of path) {
-      n = n.children[i];
+      n = n.children![i];
     }
 
-    return n;
+    return n as ComponentNode;
   }
 
   private initWindowEvents() {
@@ -74,12 +75,12 @@ export class DomManager {
       if (!current) {
         return emitEmpty();
       }
-      let data: any = current;
+      let data: object = current;
       if (this.isListenersProp(propPath)) {
         data = this.getNestedListenersProperties(current, propPath);
       } else {
         for (const prop of propPath) {
-          data = data[prop];
+          data = (data as Record<string, object>)[prop];
           if (!data) {
             console.error('Cannot access the properties', propPath, 'of', node);
           }
@@ -123,10 +124,10 @@ export class DomManager {
   }
 
   private collectListeners(component: Ext.Component): Listeners {
-    const listeners: Record<string, Function[]> = {};
+    const listeners: Record<string, SerializableFunction[]> = {};
 
     for (const [name, value] of Object.entries(component.events)) {
-      if (typeof value === 'boolean' || value.listeners.length === 0) {
+      if (!value || typeof value !== 'object' || value.listeners.length === 0) {
         continue;
       }
       listeners[name] = [];
@@ -156,7 +157,7 @@ export class DomManager {
 
   private getNestedListenersProperties(component: Ext.Component, propPath: string[]) {
     const listenersCollection = component.events[propPath[1]];
-    if (typeof listenersCollection === 'boolean') {
+    if (!listenersCollection || typeof listenersCollection !== 'object') {
       return [];
     }
     return listenersCollection.listeners.map(i => i.fn);
@@ -173,8 +174,6 @@ const componentToDevTools = (node: ComponentNode): DevToolsNode => ({
   children: node.children.map(componentToDevTools),
 });
 
-type Listeners = Record<string, Listener[]>;
-
-interface Listener {}
+type Listeners = Record<string, SerializableFunction[]>;
 
 export type ParentClasses = string[];

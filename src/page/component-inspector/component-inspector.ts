@@ -8,10 +8,10 @@ interface Events {
 }
 
 export class ComponentInspector {
-  private _selectedComponent!: {component: ComponentNode; host: HTMLElement | null};
+  private _selectedComponent!: {component: ComponentNode | null; host: HTMLElement | null};
   private listeners: Events = {
-    componentEnter: (component: ComponentNode) => void 0,
-    componentSelect: (component: ComponentNode) => void 0,
+    componentEnter: () => void 0,
+    componentSelect: () => void 0,
     componentLeave: () => void 0,
   };
 
