@@ -32,8 +32,8 @@ const DETECT_ATTEMPTS = 5;
   styleUrl: './devtools.component.scss',
 })
 export class DevtoolsComponent implements OnInit, OnDestroy {
-  readonly ExtJSStatuses = ExtJSStatuses;
-  readonly extJSStatus = signal(ExtJSStatuses.UNKNOWN);
+  protected readonly ExtJSStatuses = ExtJSStatuses;
+  protected readonly extJSStatus = signal(ExtJSStatuses.UNKNOWN);
 
   private readonly _messageBus = inject<PortBus<Events>>(PortBus);
 
@@ -44,7 +44,7 @@ export class DevtoolsComponent implements OnInit, OnDestroy {
     this._messageBus.emit('queryExtJSAvailability');
   });
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this._messageBus.on('contentScriptConnected', (frameId: number) => {
       this.extJSStatus.set(ExtJSStatuses.UNKNOWN);
       this._messageBus.emit('enableFrameConnection', frameId, chrome.devtools.inspectedWindow.tabId);
@@ -63,7 +63,7 @@ export class DevtoolsComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this._detectorInterval$.unsubscribe();
   }
 }

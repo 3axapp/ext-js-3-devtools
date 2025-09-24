@@ -14,14 +14,15 @@ import {PropertyPreviewComponent} from '../property-preview/property-preview.com
   styleUrl: './property-view-tree.component.scss',
 })
 export class PropertyViewTreeComponent {
-  readonly dataSource = input.required<PropertyDataSource>();
-  readonly treeControl = input.required<FlatTreeControl<FlatNode>>();
-  readonly inspect = output<any>();
-  readonly highlight = output<any>();
-  readonly removeHighlight = output<any>();
+  public readonly dataSource = input.required<PropertyDataSource>();
+  public readonly treeControl = input.required<FlatTreeControl<FlatNode>>();
+  public readonly inspect = output<FlatNode>();
+  public readonly highlight = output<FlatNode>();
+  public readonly removeHighlight = output<FlatNode>();
 
-  hasChild = (_: number, node: FlatNode): boolean => node.expandable;
-  toggle(node: FlatNode): void {
+  protected hasChild = (_: number, node: FlatNode): boolean => node.expandable;
+
+  protected toggle(node: FlatNode): void {
     if (this.treeControl().isExpanded(node)) {
       this.treeControl().collapse(node);
       return;
@@ -29,7 +30,7 @@ export class PropertyViewTreeComponent {
     this.expand(node);
   }
 
-  expand(node: FlatNode): void {
+  private expand(node: FlatNode): void {
     const {prop} = node;
     if (!prop.descriptor.expandable) {
       return;

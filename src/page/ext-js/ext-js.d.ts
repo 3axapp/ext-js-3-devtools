@@ -34,24 +34,24 @@ export declare global {
     };
 
     class Component {
-      constructor(...args: any[]);
+      public constructor(...args: any[]);
 
-      superclass: () => Component;
-      id: string;
-      ctype: string;
-      xtype?: string;
-      name?: string;
-      initialConfig: Record<string, any>;
-      modal?: boolean;
-      items?: {
+      public superclass: () => Component;
+      public id: string;
+      public ctype: string;
+      public xtype?: string;
+      public name?: string;
+      public initialConfig: Record<string, any>;
+      public modal?: boolean;
+      public items?: {
         items: Component[];
       };
-      ownerCt?: Component;
-      el: {
+      public ownerCt?: Component;
+      public el: {
         dom: HTMLElement;
         id: string;
       };
-      events: Record<string, boolean | string | ComponentListenerCollection>;
+      public events: Record<string, boolean | string | ComponentListenerCollection>;
     }
   }
 }

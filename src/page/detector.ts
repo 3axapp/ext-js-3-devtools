@@ -1,7 +1,8 @@
 import {ComponentNode} from './forest';
 import {xTypeAliases} from './ext-js/xtypes';
+import {SerializableFunction} from './state-serializer/types';
 
-export let types = new Map<Function, string>();
+export let types = new Map<SerializableFunction, string>();
 let indexMap: Map<Ext.Component, Ext.Component[]>;
 
 export class Detector {
@@ -11,7 +12,7 @@ export class Detector {
     return Boolean(window.Ext && Ext?.versionDetail?.major == 3 && Ext.versionDetail?.minor == 4);
   }
 
-  public onChange(cb: Function) {
+  public onChange(cb: () => void) {
     if (!this.detect()) {
       return;
     }

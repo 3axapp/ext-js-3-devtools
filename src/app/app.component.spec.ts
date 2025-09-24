@@ -17,7 +17,7 @@ describe('AppComponent', () => {
   it(`should have the 'ext-js-3-devtools' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('ext-js-3-devtools');
+    expect(app['title']).toEqual('ext-js-3-devtools');
   });
 
   it('should render title', () => {

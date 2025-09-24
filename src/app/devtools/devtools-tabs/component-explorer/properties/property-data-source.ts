@@ -1,20 +1,20 @@
 import {CollectionViewer, DataSource, SelectionChange} from '@angular/cdk/collections';
 import {arrayifyProps, FlatNode, Property} from './properties';
 import {BehaviorSubject, map, merge, Observable, Subscription} from 'rxjs';
-import {DefaultIterableDiffer, TrackByFunction} from '@angular/core';
+// import {TrackByFunction} from '@angular/core';
 import {Descriptor, DirectivePosition, Events, Properties} from '../../../../protocols/messages';
 import {MatTreeFlattener} from '@angular/material/tree';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {PortBus} from '../../../../protocols/port-bus';
-import {diff} from '../component-forest/models/diffing';
+// import {diff} from '../component-forest/models/diffing';
 
 export class PropertyDataSource extends DataSource<FlatNode> {
   private _data = new BehaviorSubject<FlatNode[]>([]);
   private _subscriptions: Subscription[] = [];
   private _expandedData = new BehaviorSubject<FlatNode[]>([]);
-  private _differ = new DefaultIterableDiffer<FlatNode>(trackBy);
+  // private _differ = new DefaultIterableDiffer<FlatNode>(trackBy);
 
-  constructor(
+  public constructor(
     props: Record<string, Descriptor>,
     private _parents: string[] | void,
     private _treeFlattener: MatTreeFlattener<Property, FlatNode>,
@@ -26,21 +26,21 @@ export class PropertyDataSource extends DataSource<FlatNode> {
     this._data.next(this._treeFlattener.flattenNodes(arrayifyProps(props)));
   }
 
-  get data(): FlatNode[] {
+  private get data(): FlatNode[] {
     return this._data.value;
   }
 
-  get treeControl(): FlatTreeControl<FlatNode> {
+  public get treeControl(): FlatTreeControl<FlatNode> {
     return this._treeControl;
   }
 
-  update(props: Record<string, Descriptor>): void {
-    const newData = this._treeFlattener.flattenNodes(arrayifyProps(props));
-    diff(this._differ, this.data, newData);
-    this._data.next(this.data);
-  }
+  // update(props: Record<string, Descriptor>): void {
+  //   const newData = this._treeFlattener.flattenNodes(arrayifyProps(props));
+  //   diff(this._differ, this.data, newData);
+  //   this._data.next(this.data);
+  // }
 
-  override connect(collectionViewer: CollectionViewer): Observable<FlatNode[]> {
+  public override connect(collectionViewer: CollectionViewer): Observable<FlatNode[]> {
     const changed = this._treeControl.expansionModel.changed;
     if (!changed) {
       throw new Error('Unable to subscribe to the expansion model change');
@@ -65,7 +65,7 @@ export class PropertyDataSource extends DataSource<FlatNode> {
     );
   }
 
-  override disconnect(): void {
+  public override disconnect(): void {
     this._subscriptions.forEach(s => s.unsubscribe());
     this._subscriptions = [];
   }
@@ -95,7 +95,7 @@ export class PropertyDataSource extends DataSource<FlatNode> {
 
     this._messageBus.emit('getNestedProperties', this._entityPosition, parentPath);
 
-    this._messageBus.on('nestedProperties', (position: DirectivePosition, data: Properties, _path: string[]) => {
+    this._messageBus.on('nestedProperties', (position: DirectivePosition, data: Properties) => {
       node.prop.descriptor.value = data.props;
       this._treeControl.expand(node);
       const props = arrayifyProps(data.props, node.prop);
@@ -107,5 +107,5 @@ export class PropertyDataSource extends DataSource<FlatNode> {
   }
 }
 
-const trackBy: TrackByFunction<FlatNode> = (_: number, item: FlatNode) =>
-  `#${item.prop.name}#${item.prop.descriptor.preview}#${item.level}`;
+// const trackBy: TrackByFunction<FlatNode> = (_: number, item: FlatNode) =>
+//   `#${item.prop.name}#${item.prop.descriptor.preview}#${item.level}`;

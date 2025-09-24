@@ -1,4 +1,5 @@
 import {getComponent} from '../detector';
+import {ComponentNode} from '../forest';
 
 let selectedElementOverlay: HTMLElement | null = null;
 
@@ -45,7 +46,7 @@ function createOverlay(color: RgbColor): {overlay: HTMLElement; overlayContent: 
 }
 
 export function findComponentAndHost(el: Node | undefined): {
-  component: any;
+  component: ComponentNode | null;
   host: HTMLElement | null;
 } {
   if (!el) {
@@ -85,7 +86,7 @@ export function unHighlight(): void {
   selectedElementOverlay = null;
 }
 
-export function inDoc(node: any): boolean {
+export function inDoc(node: HTMLElement): boolean {
   if (!node) {
     return false;
   }
@@ -94,7 +95,7 @@ export function inDoc(node: any): boolean {
   return doc === node || doc === parent || !!(parent && parent.nodeType === 1 && doc.contains(parent));
 }
 
-function addHighlightForElement(el: Node, color: RgbColor = COLORS.blue, overlayType?: any): HTMLElement | null {
+function addHighlightForElement(el: Node, color: RgbColor = COLORS.blue, overlayType?: string): HTMLElement | null {
   const cmp = findComponentAndHost(el).component;
   const rect = getComponentRect(el);
   if (rect?.height === 0 || rect?.width === 0) {
@@ -102,7 +103,9 @@ function addHighlightForElement(el: Node, color: RgbColor = COLORS.blue, overlay
   }
 
   const {overlay, overlayContent} = createOverlay(color);
-  if (!rect) return null;
+  if (!rect || !cmp) {
+    return null;
+  }
 
   const content: Node[] = [];
   const componentName = cmp.type;

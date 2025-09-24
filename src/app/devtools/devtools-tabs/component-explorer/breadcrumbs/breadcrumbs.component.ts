@@ -12,19 +12,19 @@ import {MatButton} from '@angular/material/button';
   styleUrl: './breadcrumbs.component.scss',
 })
 export class BreadcrumbsComponent {
-  readonly parents = input.required<FlatNode[]>();
-  readonly handleSelect = output<FlatNode>();
-  readonly mouseOverNode = output<FlatNode>();
-  readonly mouseLeaveNode = output<FlatNode>();
+  public readonly parents = input.required<FlatNode[]>();
+  public readonly handleSelect = output<FlatNode>();
+  public readonly mouseOverNode = output<FlatNode>();
+  public readonly mouseLeaveNode = output<FlatNode>();
 
-  readonly breadcrumbsScrollContent = viewChild.required<ElementRef>('breadcrumbs');
+  private readonly breadcrumbsScrollContent = viewChild.required<ElementRef>('breadcrumbs');
 
-  readonly showScrollLeftButton = computed(() => {
+  protected readonly showScrollLeftButton = computed(() => {
     const value = this.breadcrumbsScrollLayout();
     return value && value.scrollLeft > 0;
   });
 
-  readonly showScrollRightButton = computed(() => {
+  protected readonly showScrollRightButton = computed(() => {
     const value = this.breadcrumbsScrollLayout();
     if (!value) {
       return false;
@@ -35,7 +35,7 @@ export class BreadcrumbsComponent {
 
   private readonly breadcrumbsScrollLayout = signal<BreadcrumbsScrollLayout | undefined>(undefined);
 
-  constructor() {
+  public constructor() {
     effect(cleanup => {
       const observer = new ResizeObserver(() => this.updateScrollButtonVisibility());
       observer.observe(this.breadcrumbsScrollContent().nativeElement);
@@ -43,12 +43,12 @@ export class BreadcrumbsComponent {
     });
   }
 
-  scroll(pixels: number): void {
+  protected scroll(pixels: number): void {
     this.breadcrumbsScrollContent().nativeElement.scrollLeft += pixels;
     this.updateScrollButtonVisibility();
   }
 
-  updateScrollButtonVisibility(): void {
+  protected updateScrollButtonVisibility(): void {
     const {clientWidth, scrollWidth, scrollLeft} = this.breadcrumbsScrollContent().nativeElement;
     this.breadcrumbsScrollLayout.set({clientWidth, scrollWidth, scrollLeft});
   }

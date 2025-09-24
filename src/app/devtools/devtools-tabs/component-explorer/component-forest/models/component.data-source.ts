@@ -35,23 +35,23 @@ export class ComponentDataSource extends DataSource<FlatNode> {
     node => (node ? node.children : []),
   );
 
-  constructor(private _treeControl: FlatTreeControl<FlatNode>) {
+  public constructor(private _treeControl: FlatTreeControl<FlatNode>) {
     super();
   }
 
-  get data(): FlatNode[] {
+  public get data(): FlatNode[] {
     return this._flattenedData.value;
   }
 
-  get expandedDataValues(): FlatNode[] {
+  public get expandedDataValues(): FlatNode[] {
     return this._expandedData.value;
   }
 
-  getFlatNodeFromIndexedNode(indexedNode: IndexedNode): FlatNode | undefined {
-    return this._nodeToFlat.get(indexedNode);
-  }
+  // getFlatNodeFromIndexedNode(indexedNode: IndexedNode): FlatNode | undefined {
+  //   return this._nodeToFlat.get(indexedNode);
+  // }
 
-  update(forest: DevToolsNode[]): UpdateResult {
+  public update(forest: DevToolsNode[]): UpdateResult {
     if (!forest.length) {
       return {newItems: [], movedItems: [], removedItems: []};
     }
@@ -80,7 +80,7 @@ export class ComponentDataSource extends DataSource<FlatNode> {
     return {newItems, movedItems, removedItems};
   }
 
-  connect(collectionViewer: CollectionViewer): Observable<FlatNode[]> {
+  public connect(collectionViewer: CollectionViewer): Observable<FlatNode[]> {
     const changes = [collectionViewer.viewChange, this._treeControl.expansionModel.changed, this._flattenedData];
     return merge<unknown[]>(...changes).pipe(
       map(() => {
@@ -95,7 +95,9 @@ export class ComponentDataSource extends DataSource<FlatNode> {
     );
   }
 
-  disconnect(collectionViewer: CollectionViewer): void {}
+  public disconnect(): void {
+    // fix @typescript-eslint/no-empty-function
+  }
 }
 
 export interface UpdateResult {
