@@ -1,8 +1,8 @@
-export const getDescriptor = (instance: any, propName: string): PropertyDescriptor | undefined =>
+export const getDescriptor = (instance: object | never[], propName: string): PropertyDescriptor | undefined =>
   Object.getOwnPropertyDescriptor(instance, propName) ||
   Object.getOwnPropertyDescriptor(Object.getPrototypeOf(instance), propName);
 
-export function getKeys(obj: {}): string[] {
+export function getKeys(obj?: object): string[] {
   if (!obj) {
     return [];
   }
@@ -12,7 +12,7 @@ export function getKeys(obj: {}): string[] {
   const prototypeMembers = Object.getOwnPropertyDescriptors(Object.getPrototypeOf(obj) ?? {});
 
   const ignoreList = ['__proto__'];
-  const gettersAndSetters = Object.keys(prototypeMembers).filter((methodName) => {
+  const gettersAndSetters = Object.keys(prototypeMembers).filter(methodName => {
     if (ignoreList.includes(methodName)) {
       return false;
     }

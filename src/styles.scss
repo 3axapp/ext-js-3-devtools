@@ -90,6 +90,14 @@ as-split {
     border: 3px solid var(--mat-app-background-color, var(--mat-sys-background, transparent));
     background-color: var(--color-separator);
 
+    &[aria-orientation="vertical"] {
+      border-width: 3px 0;
+    }
+
+    &[aria-orientation="horizontal"] {
+      border-width: 0 3px;
+    }
+
     .as-split-gutter-icon {
       display: none;
     }

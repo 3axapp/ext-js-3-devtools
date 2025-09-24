@@ -1,59 +1,57 @@
 export declare global {
   namespace Ext {
     interface ComponentListenerCollection {
-      name: string,
-      obj: Component,
-      listeners: ComponentEventListener[],
+      name: string;
+      obj: Component;
+      listeners: ComponentEventListener[];
     }
 
     interface ComponentEventListener {
-      fireFn: Function,
-      fn: Function,
-      options: Record<string, any>,
-      scope: object,
+      fireFn: Function;
+      fn: Function;
+      options: Record<string, any>;
+      scope: object;
     }
 
     const versionDetail: {
-      major: number,
-      minor: number,
-      path: number,
+      major: number;
+      minor: number;
+      path: number;
     };
 
     const ComponentMgr: {
-      get: (id: string) => ?Component,
+      get: (id: string) => ?Component;
       all: {
-        items: Component[],
-        map: Record<string, Component>,
+        items: Component[];
+        map: Record<string, Component>;
         on: (event: string, cb: Function) => void;
-      },
-      types: Record<string, Function>,
+      };
+      types: Record<string, Function>;
     };
 
     const util: {
-      Observable: {
-        new(...args): any,
-      }
+      Observable: new (...args) => any;
     };
 
     class Component {
-      constructor(...args: any[]);
+      public constructor(...args: any[]);
 
-      superclass: () => Component;
-      id: string;
-      ctype: string;
-      xtype?: string;
-      name?: string;
-      initialConfig: Record<string, any>;
-      modal?: boolean;
-      items?: {
-        items: Component[],
+      public superclass: () => Component;
+      public id: string;
+      public ctype: string;
+      public xtype?: string;
+      public name?: string;
+      public initialConfig: Record<string, any>;
+      public modal?: boolean;
+      public items?: {
+        items: Component[];
       };
-      ownerCt?: Component;
-      el: {
-        dom: HTMLElement,
-        id: string,
+      public ownerCt?: Component;
+      public el: {
+        dom: HTMLElement;
+        id: string;
       };
-      events: Record<string, boolean | ComponentListenerCollection>;
+      public events: Record<string, boolean | string | ComponentListenerCollection>;
     }
   }
 }

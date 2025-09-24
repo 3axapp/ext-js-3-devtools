@@ -1,20 +1,17 @@
 import {ElementPath} from '../app/protocols/messages';
 
 export interface ComponentNode {
-  id: string,
-  type: string,
-  ctype: string,
-  xtype?: string,
-  name?: string,
-  modal: boolean,
-  component: Ext.Component,
-  children: ComponentNode[],
+  id: string;
+  type: string;
+  ctype: string;
+  xtype?: string;
+  name?: string;
+  modal: boolean;
+  component: Ext.Component;
+  children: ComponentNode[];
 }
 
-export const queryDirectiveForest = (
-  position: ElementPath,
-  forest: ComponentNode[],
-): ComponentNode | null => {
+export const queryDirectiveForest = (position: ElementPath, forest: ComponentNode[]): ComponentNode | null => {
   if (!position.length) {
     return null;
   }
