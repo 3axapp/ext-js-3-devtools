@@ -21,16 +21,16 @@ export class BreadcrumbsComponent {
 
   protected readonly showScrollLeftButton = computed(() => {
     const value = this.breadcrumbsScrollLayout();
-    return value && value.scrollLeft > 0;
-  });
-
-  protected readonly showScrollRightButton = computed(() => {
-    const value = this.breadcrumbsScrollLayout();
     if (!value) {
       return false;
     }
     const {clientWidth, scrollWidth, scrollLeft} = value;
-    return scrollWidth > clientWidth && scrollLeft + clientWidth < scrollWidth;
+    return scrollWidth > clientWidth && clientWidth - scrollLeft + 1 < scrollWidth;
+  });
+
+  protected readonly showScrollRightButton = computed(() => {
+    const value = this.breadcrumbsScrollLayout();
+    return value && value.scrollLeft < 0;
   });
 
   private readonly breadcrumbsScrollLayout = signal<BreadcrumbsScrollLayout | undefined>(undefined);
