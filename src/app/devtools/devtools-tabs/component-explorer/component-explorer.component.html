@@ -13,7 +13,12 @@
       </as-split-area>
       <as-split-area size="24">
         @if (parents()) {
-          <app-breadcrumbs [parents]="parents()!" (handleSelect)="handleSelect($event)"></app-breadcrumbs>
+          <app-breadcrumbs
+            [parents]="parents()!"
+            (handleSelect)="handleSelect($event)"
+            (mouseOverNode)="highlightComponent($event)"
+            (mouseLeaveNode)="removeComponentHighlight()"
+          ></app-breadcrumbs>
         }
       </as-split-area>
     </as-split>
