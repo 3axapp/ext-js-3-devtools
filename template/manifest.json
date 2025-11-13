@@ -5,7 +5,7 @@
   "description": "__MSG_extensionDescription__",
   "author": "Захаров Александр",
   "homepage_url": "https://github.com/3axapp/ext-js-3-devtools",
-  "version": "1.4.0.0",
+  "version": "1.6.0.0",
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "icons": {
     "48": "assets/icon.svg"

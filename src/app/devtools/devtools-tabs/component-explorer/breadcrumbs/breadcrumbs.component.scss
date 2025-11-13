@@ -19,11 +19,13 @@
 
   .breadcrumbs {
     overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
-    display: inline-block;
     // width: calc(100% - 50px);
     height: 100%;
     scroll-behavior: smooth;
+    flex-direction: row-reverse;
+    display: flex;
 
     &::-webkit-scrollbar {
       display: none;
