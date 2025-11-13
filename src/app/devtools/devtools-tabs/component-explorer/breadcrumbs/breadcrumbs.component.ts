@@ -3,6 +3,7 @@ import {FlatNode} from '../models/flat-node';
 import {MatCard} from '@angular/material/card';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton} from '@angular/material/button';
+import {ElementPath} from '../../../../protocols/messages';
 
 @Component({
   selector: 'app-breadcrumbs',
@@ -14,7 +15,7 @@ import {MatButton} from '@angular/material/button';
 export class BreadcrumbsComponent {
   public readonly parents = input.required<FlatNode[]>();
   public readonly handleSelect = output<FlatNode>();
-  public readonly mouseOverNode = output<FlatNode>();
+  public readonly mouseOverNode = output<ElementPath>();
   public readonly mouseLeaveNode = output<FlatNode>();
 
   private readonly breadcrumbsScrollContent = viewChild.required<ElementRef>('breadcrumbs');

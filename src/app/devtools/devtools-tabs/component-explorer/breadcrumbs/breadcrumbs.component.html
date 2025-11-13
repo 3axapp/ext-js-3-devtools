@@ -6,7 +6,7 @@
     <div>
       @for (node of parents(); track $index) {
         <button
-          (mouseover)="mouseOverNode.emit(node)"
+          (mouseover)="mouseOverNode.emit(node.path)"
           (mouseleave)="mouseLeaveNode.emit(node)"
           mat-button
           color="primary"
