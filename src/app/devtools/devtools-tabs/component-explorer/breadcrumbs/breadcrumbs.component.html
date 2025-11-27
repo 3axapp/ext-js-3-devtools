@@ -3,18 +3,20 @@
     <mat-icon>more_horiz</mat-icon>
   </button>
   <div class="breadcrumbs" #breadcrumbs (scroll)="updateScrollButtonVisibility()">
-    @for (node of parents(); track $index) {
-      <button
-        (mouseover)="mouseOverNode.emit(node)"
-        (mouseleave)="mouseLeaveNode.emit(node)"
-        mat-button
-        color="primary"
-        (click)="handleSelect.emit(node)"
-        [class.selected]="$last"
-      >
-        {{ node.name }}
-      </button>
-    }
+    <div>
+      @for (node of parents(); track $index) {
+        <button
+          (mouseover)="mouseOverNode.emit(node.path)"
+          (mouseleave)="mouseLeaveNode.emit(node)"
+          mat-button
+          color="primary"
+          (click)="handleSelect.emit(node)"
+          [class.selected]="$last"
+        >
+          {{ node.name }}
+        </button>
+      }
+    </div>
   </div>
   <button class="scroll-button" [class.hidden]="!showScrollRightButton()" (click)="scroll(100)">
     <mat-icon>more_horiz</mat-icon>
