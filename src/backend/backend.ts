@@ -39,18 +39,6 @@ port.onMessage.addListener(m => {
   windowBus.emit(m.topic, ...(m.args as never[]));
 });
 
-function pingBackground(): void {
-  if (backgroundDisconnected) {
-    return;
-  }
-
-  port.postMessage({topic: 'ping'});
-
-  setTimeout(() => pingBackground(), 10_000);
-}
-
-pingBackground();
-
 const s = document.createElement('script');
 s.src = chrome.runtime.getURL('/page.js');
 (document.head || document.documentElement).appendChild(s);

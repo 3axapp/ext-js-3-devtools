@@ -27,7 +27,6 @@ export class TabManager {
   private registerDevToolsForTab(port: chrome.runtime.Port): void {
     // For the devtools page, our port name is the tab id.
     const tabId = parseInt(port.name, 10);
-
     const tab = this.getTab(tabId);
 
     tab.devtools = port;
