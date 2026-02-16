@@ -1,8 +1,14 @@
 include .env
-all:
+base:
 	rm -rf ./dist && \
 	npm run frontend && npm run backend && \
 	cp -r ./template/* ./dist
+
+firefox: base
+	jq 'del(.background.service_worker)' template/manifest.json > dist/manifest.json
+
+chrome: base
+	jq 'del(.background.scripts, .browser_specific_settings)' template/manifest.json > dist/manifest.json
 
 # https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign
 # web-ext сломали, собирается на версии node 22 lts

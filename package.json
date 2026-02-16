@@ -10,8 +10,8 @@
     "frontend2": "ng build --optimization=false",
     "frontend-watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "backend": "webpack --config webpack.backend.js",
-    "backend-watch": "webpack  --watch --config webpack.backend.js",
+    "backend": "node build-backend.mjs",
+    "backend-watch": "node build-backend.mjs --watch",
     "ext": "web-ext",
     "lint": "ng lint"
   },
@@ -49,10 +49,9 @@
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "^3.6.2",
     "prettier-eslint": "^16.4.2",
-    "ts-loader": "^9.5.2",
     "typescript": "~5.8.3",
     "typescript-eslint": "8.34.1",
-    "web-ext": "^8.4.0",
-    "webpack-cli": "^6.0.1"
+    "vite": "^7.0.0",
+    "web-ext": "^8.4.0"
   }
 }
