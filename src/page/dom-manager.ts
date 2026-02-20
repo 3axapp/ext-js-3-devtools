@@ -121,6 +121,7 @@ export class DomManager {
 
   private initComplete() {
     this.bus.emit('backendReady');
+    this.bus.emit('extJSAvailability', {exists: this.detector.detect()});
   }
 
   private collectListeners(component: Ext.Component): Listeners {
