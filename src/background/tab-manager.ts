@@ -2,9 +2,15 @@
 import Port = chrome.runtime.Port;
 import {Events, Topic} from '../app/protocols/messages';
 
+const KEEP_ALIVE_ALARM = 'keepAlive';
+const KEEP_ALIVE_PERIOD_IN_MINUTES = 0.4;
+
 export class TabManager {
+  private extJsTabs = new Set<number>();
+
   public constructor(
     private runtime: typeof chrome.runtime,
+    private alarms: typeof chrome.alarms,
     private tabs: Record<string, DevToolsConnection> = {},
   ) {}
 
@@ -22,12 +28,31 @@ export class TabManager {
 
       this.registerContentScriptForTab(port);
     });
+
+    this.alarms.onAlarm.addListener(alarm => {
+      if (alarm.name === KEEP_ALIVE_ALARM) {
+        console.log(alarm.name);
+      }
+    });
+  }
+
+  private startKeepAlive(): void {
+    this.alarms.get(KEEP_ALIVE_ALARM, existing => {
+      if (!existing) {
+        this.alarms.create(KEEP_ALIVE_ALARM, {periodInMinutes: KEEP_ALIVE_PERIOD_IN_MINUTES});
+      }
+    });
+  }
+
+  private stopKeepAliveIfEmpty(): void {
+    if (this.extJsTabs.size === 0) {
+      this.alarms.clear(KEEP_ALIVE_ALARM);
+    }
   }
 
   private registerDevToolsForTab(port: chrome.runtime.Port): void {
     // For the devtools page, our port name is the tab id.
     const tabId = parseInt(port.name, 10);
-
     const tab = this.getTab(tabId);
 
     tab.devtools = port;
@@ -73,11 +98,26 @@ export class TabManager {
     contentScript.frameId = frameId;
     contentScript.enabled = contentScript.enabled ?? false;
 
+    port.onMessage.addListener((message: {topic: string; args?: unknown[]}) => {
+      if (message.topic === 'extJSAvailability' && message.args) {
+        const exists = (message.args[0] as {exists: boolean}).exists;
+        if (exists) {
+          this.extJsTabs.add(tabId);
+          this.startKeepAlive();
+        } else {
+          this.extJsTabs.delete(tabId);
+          this.stopKeepAliveIfEmpty();
+        }
+      }
+    });
+
     port.onDisconnect.addListener(() => {
       delete tab.contentScripts[frameId];
 
       if (Object.keys(tab.contentScripts).length === 0) {
         delete this.tabs[tabId];
+        this.extJsTabs.delete(tabId);
+        this.stopKeepAliveIfEmpty();
       }
     });
 
