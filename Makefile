@@ -17,7 +17,7 @@ sign:
 	npm run ext -- build -s dist --overwrite-dest && \
 	npm run ext -- sign -s dist --channel=listed --api-key=$$AMO_JWT_ISSUER --api-secret=$$AMO_JWT_SECRET --amo-metadata=src/metadata.json
 
-build: all sign
+build: firefox sign
 
 icons:
-	bash -c 'for size in 16 32 48 128; do convert -background none -density 1200 -resize $${size}x$${size} src/resources/icon.svg template/assets/icon_$${size}.png; done'
+	bash -c 'for size in 16 32 48 128; do magick -background transparent -density 1200  src/resources/icon.svg -resize $${size}x$${size} -gravity center -extent $${size}x$${size} template/assets/icon_$${size}.png; done'
