@@ -1,6 +1,6 @@
 {
   "name": "ext-js-3-devtools",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "scripts": {
     "preversion": "node tools/npm-hooks/preversion.js",
     "postversion": "node tools/npm-hooks/postversion.js",

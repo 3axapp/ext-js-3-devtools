@@ -1,7 +1,8 @@
 # Ext JS 3 DevTools
 
-![main.png](docs/main.png)
-Firefox: https://addons.mozilla.org/firefox/addon/ext-js-3-devtools/
+![main.png](docs/main.png)  
+Firefox: https://addons.mozilla.org/firefox/addon/ext-js-3-devtools/  
+Chrome: собрать `make chrome` или [скачать со страницы релизов](https://github.com/3axapp/ext-js-3-devtools/releases)
 
 ## Может
 
