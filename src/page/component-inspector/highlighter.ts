@@ -52,10 +52,23 @@ export function findComponentAndHost(el: Node | undefined): {
   if (!el) {
     return {component: null, host: null};
   }
+  const idComponentMap: Record<string, Ext.Component> = {};
+  window.Ext?.ComponentMgr.all.each(cmp => {
+    if (cmp.id) {
+      idComponentMap[cmp.id] = cmp;
+    }
+    if (cmp.wrap?.id) {
+      idComponentMap[cmp.wrap.id] = cmp;
+    }
+    if (cmp.itemCt?.id) {
+      idComponentMap[cmp.itemCt.id] = cmp;
+    }
+  });
   while (el) {
-    const component = el instanceof HTMLElement && getComponent(el);
+    const component = el instanceof HTMLElement && getComponent(el, idComponentMap);
     if (component) {
-      return {component, host: el as HTMLElement};
+      const cmp = component.component;
+      return {component, host: (cmp.itemCt?.dom || cmp.wrap?.dom || el) as HTMLElement};
     }
     if (!el.parentElement) {
       break;
