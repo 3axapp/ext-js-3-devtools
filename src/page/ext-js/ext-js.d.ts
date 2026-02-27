@@ -25,6 +25,7 @@ export declare global {
         items: Component[];
         map: Record<string, Component>;
         on: (event: string, cb: Function) => void;
+        each: (cb: (item: Component, i: number, len: number) => void) => void;
       };
       types: Record<string, Function>;
     };
@@ -47,11 +48,15 @@ export declare global {
         items: Component[];
       };
       public ownerCt?: Component;
-      public el: {
-        dom: HTMLElement;
-        id: string;
-      };
+      public el: Element;
+      public wrap?: Element;
+      public itemCt?: Element;
       public events: Record<string, boolean | string | ComponentListenerCollection>;
+    }
+
+    class Element {
+      public dom: HTMLElement;
+      public id: string;
     }
   }
 }

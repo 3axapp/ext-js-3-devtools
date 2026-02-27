@@ -38,9 +38,10 @@ export class ComponentInspector {
 
   public highlightComponent(component: ComponentNode) {
     const el = document.getElementById(component.id);
+    const host = el && findComponentAndHost(el)?.host;
     unHighlight();
-    if (el) {
-      highlightSelectedElement(el);
+    if (host) {
+      highlightSelectedElement(host);
     }
   }
 
