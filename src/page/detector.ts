@@ -64,8 +64,8 @@ export class Detector {
   }
 }
 
-export const getComponent = (el: HTMLElement) => {
-  const cmp = el.id && window.Ext?.ComponentMgr.all.map[el.id];
+export const getComponent = (el: HTMLElement, idComponentMap: Record<string, Ext.Component>) => {
+  const cmp = el.id && idComponentMap[el.id];
 
   if (cmp) {
     return extJSComponentToNode(cmp);
